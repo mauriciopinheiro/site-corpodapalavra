@@ -1,0 +1,18 @@
+{
+  "hosting": {
+    "public": "firebase_public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "cleanUrls": true,
+    "trailingSlash": true,
+    "rewrites": [
+      {
+        "source": "/corpo-da-palavra/**",
+        "destination": "/corpo-da-palavra/index.html"
+      }
+    ]
+  }
+}

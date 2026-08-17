@@ -1,23 +1,24 @@
 /**
  * Tipos centrais do microsite da exposição corpoDApalavra
+ * (100% tipográfico, diagramático e tátil, sem fotografias)
  */
 
-export type CategoriaFoto = 
-  | 'matéria' 
-  | 'tipo' 
-  | 'gesto' 
-  | 'leitura' 
-  | 'impressão' 
+export type CategoriaPlaca = 
+  | 'arquitetura' 
+  | 'morfologia' 
+  | 'matriz' 
+  | 'processo' 
+  | 'métrica' 
   | 'espaço';
 
-export interface FotoExposicao {
+export interface PlacaGrafica {
   id: string;
-  url: string;
+  numero: string;
   titulo: string;
-  categoria: CategoriaFoto;
+  categoria: CategoriaPlaca;
+  subtitulo: string;
   descricao: string;
-  orientacao: 'retrato' | 'paisagem';
-  destaque?: boolean;
+  tipoDiagrama: 'grade-36' | 'metricas' | 'dobra-livro' | 'rama-prelo' | 'escala-aurea' | 'fontes-brasil' | 'contraforma' | 'tinta-pressao' | 'madeira-veio' | 'costura' | 'registro' | 'silencio';
 }
 
 export type TipoModulo = 'letra' | 'conceito' | 'anatomia' | 'literatura' | 'processo';
@@ -43,22 +44,6 @@ export interface TermoGlossario {
   definicao: string;
   letraExemplo: string;
   detalheVisual: string;
-}
-
-export interface PontoAnatomico {
-  nome: string;
-  descricao: string;
-  x: number; // % horizontal
-  y: number; // % vertical
-  posicaoTexto: 'topo' | 'baixo' | 'esquerda' | 'direita';
-}
-
-export interface LetraAnatomia {
-  caractere: string;
-  nome: string;
-  familia: string;
-  pontos: PontoAnatomico[];
-  comentario: string;
 }
 
 export interface CreditoItem {

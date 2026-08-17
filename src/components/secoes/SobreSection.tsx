@@ -45,17 +45,33 @@ export const SobreSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Coluna Direita: Fotografia Real do Mural e Placa Conceitual */}
+          {/* Coluna Direita: Planta e Diagrama Expográfico do ETA */}
           <div className="lg:col-span-5 flex flex-col gap-6">
-            <div className="border-2 border-tinta bg-tinta p-2 shadow-carimbo-lg">
-              <img
-                src="/assets/fotos/foto_exposicao_11.jpeg"
-                alt="Vista geral da exposição corpoDApalavra no Sesc Santo André"
-                className="w-full h-80 object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-500"
-              />
-              <div className="p-3 bg-papel border-t-2 border-tinta font-mono text-xs text-tinta flex justify-between">
-                <span>VISTA GERAL — ESPAÇO DE TECNOLOGIAS E ARTES</span>
-                <span className="font-bold">SESC SANTO ANDRÉ</span>
+            <div className="border-2 border-tinta bg-tinta text-papel p-6 shadow-carimbo-lg space-y-4">
+              <div className="flex items-center justify-between border-b border-papel/20 pb-2 font-mono text-xs uppercase text-acento-amarelo">
+                <span>PLANTA EXPOGRÁFICA</span>
+                <span>SESC SANTO ANDRÉ</span>
+              </div>
+              <div className="p-6 bg-tinta-suave border border-papel/30 font-mono text-xs space-y-3">
+                <div className="flex justify-between border-b border-papel/10 pb-1">
+                  <span className="text-papel-claro font-bold">1. ENTRADA:</span>
+                  <span className="text-papel/70">A Palavra Ganha Corpo</span>
+                </div>
+                <div className="flex justify-between border-b border-papel/10 pb-1">
+                  <span className="text-papel-claro font-bold">2. NÚCLEO I:</span>
+                  <span className="text-papel/70">oSERlivro (Bancada & Dobra)</span>
+                </div>
+                <div className="flex justify-between border-b border-papel/10 pb-1">
+                  <span className="text-papel-claro font-bold">3. NÚCLEO II:</span>
+                  <span className="text-papel/70">oSERtipografia (36 Módulos)</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-papel-claro font-bold">4. ATELIER:</span>
+                  <span className="text-papel/70">Matrizes & Prensagem Manual</span>
+                </div>
+              </div>
+              <div className="font-mono text-[11px] text-papel/60 uppercase text-right">
+                Espaço de Tecnologias e Artes • ETA
               </div>
             </div>
 

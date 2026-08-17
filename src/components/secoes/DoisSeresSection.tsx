@@ -20,7 +20,7 @@ export const DoisSeresSection: React.FC = () => {
         {/* 1. Experiência da Dobra e Virada do Livro */}
         <DobraLivroInterativa />
 
-        {/* 2. Grid Comparativo oSERlivro & oSERtipografia */}
+        {/* 2. Grid Comparativo oSERlivro & oSERtipografia (100% Gráfico/Vetorial) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
           {/* oSERlivro */}
           <div className="border-2 border-tinta bg-papel-claro p-6 sm:p-8 flex flex-col justify-between shadow-carimbo-lg relative">
@@ -41,12 +41,15 @@ export const DoisSeresSection: React.FC = () => {
                 O livro como objeto, tecnologia ancestral e território gráfico. Maquetes, ferramentas e processos que revelam a anatomia da página e a encadernação artesanal.
               </p>
 
-              <div className="border-2 border-tinta shadow-carimbo overflow-hidden mb-6 bg-tinta">
-                <img
-                  src="/assets/fotos/foto_exposicao_07.jpeg"
-                  alt="Mesa de processos gráficos do núcleo oSERlivro"
-                  className="w-full h-52 object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-500"
-                />
+              {/* Bloco Vetorial da Arquitetura do Livro */}
+              <div className="border-2 border-tinta bg-madeira/30 p-6 mb-6 font-mono text-xs text-tinta space-y-2">
+                <div className="flex justify-between border-b border-tinta/20 pb-1 font-bold">
+                  <span>DISPOSITIVO GRÁFICO</span>
+                  <span>4 FÓLIOS ARTICULADOS</span>
+                </div>
+                <p className="font-serifa italic text-sm text-tinta">
+                  “A folha dobrada delimita o olhar e isola o pensamento do caos exterior.”
+                </p>
               </div>
             </div>
 
@@ -55,7 +58,7 @@ export const DoisSeresSection: React.FC = () => {
                 href="#galeria"
                 className="inline-flex items-center gap-2 bg-tinta text-papel-claro px-5 py-2.5 font-mono text-xs uppercase font-bold shadow-carimbo hover:bg-acento-azul transition-all"
               >
-                <span>Explorar Acervo oSERlivro</span>
+                <span>Ver Pranchas de Processo</span>
                 <ArrowRight className="w-4 h-4" />
               </a>
             </div>
@@ -80,12 +83,15 @@ export const DoisSeresSection: React.FC = () => {
                 A letra liberta-se da leitura e passa a atuar como forma escultórica, massa preta e silêncio. Um painel de 36 módulos de madeira em 3 linhas concebido pelo Estúdio Agudo e Gráfica Experimental.
               </p>
 
-              <div className="border-2 border-papel shadow-carimbo-branco overflow-hidden mb-6 bg-papel">
-                <img
-                  src="/assets/fotos/foto_exposicao_01.jpeg"
-                  alt="Painel de 36 módulos de madeira da exposição oSERtipografia"
-                  className="w-full h-52 object-cover contrast-125 hover:scale-105 transition-all duration-500"
-                />
+              {/* Bloco Vetorial da Grade Modular */}
+              <div className="border-2 border-papel/40 bg-tinta-suave p-6 mb-6 font-mono text-xs text-papel space-y-2">
+                <div className="flex justify-between border-b border-papel/20 pb-1 font-bold text-acento-amarelo">
+                  <span>SISTEMA MODULAR</span>
+                  <span>3 LINHAS × 12 COLUNAS</span>
+                </div>
+                <p className="font-serifa italic text-sm text-papel/90">
+                  “O caractere permanece; o corpo muda em 12 morfologias brasileiras.”
+                </p>
               </div>
             </div>
 

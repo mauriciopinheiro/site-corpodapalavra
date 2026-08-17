@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { EtiquetaAtelier } from '../ui/EtiquetaAtelier';
+import { Sparkles, Hammer } from 'lucide-react';
 
 export const ManifestoSection: React.FC = () => {
   const sequenciaEvolutiva = [
@@ -18,7 +19,7 @@ export const ManifestoSection: React.FC = () => {
         {/* Cabeçalho do Manifesto */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-16">
           <div className="lg:col-span-5">
-            <EtiquetaAtelier texto="Manifesto Curatorial" variante="escuro" rotacao="-rotate-1" />
+            <EtiquetaAtelier texto="Manifesto Curatorial" variante="escuro" />
             <h2 className="font-serifa italic text-4xl sm:text-5xl md:text-6xl text-tinta mt-4 leading-tight">
               Mas o que é <br />
               <strong className="font-anton not-italic uppercase text-5xl sm:text-6xl md:text-7xl tracking-tighter block text-tinta">
@@ -31,7 +32,6 @@ export const ManifestoSection: React.FC = () => {
             </p>
           </div>
 
-          {/* Citação Editorial em Bloco Tátil */}
           <div className="lg:col-span-7 bg-papel-claro p-6 sm:p-8 md:p-10 border-2 border-tinta shadow-carimbo-lg relative">
             <div className="absolute top-0 right-0 bg-tinta text-papel px-3 py-1 font-mono text-[10px] uppercase font-bold tracking-widest">
               PRINCIPIUM
@@ -46,7 +46,7 @@ export const ManifestoSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Sequência Progressiva: O Caminho da Matéria */}
+        {/* Sequência Progressiva */}
         <div className="border-2 border-tinta bg-papel-claro p-6 md:p-10 shadow-carimbo">
           <div className="flex items-center justify-between border-b-2 border-tinta pb-4 mb-8 font-mono text-xs uppercase font-bold text-tinta">
             <span>Sequência Morfogenética do Tipo</span>
@@ -84,22 +84,36 @@ export const ManifestoSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Bloco com foto real da montagem */}
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-          <div className="md:col-span-7 border-2 border-tinta shadow-carimbo overflow-hidden bg-tinta">
-            <img
-              src="/assets/fotos/foto_exposicao_24.jpeg"
-              alt="Módulo da Letra e do Pensamento na exposição corpoDApalavra"
-              className="w-full h-72 md:h-96 object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-500"
-            />
+        {/* Bloco de Gravura e Matriz (100% Gráfico, sem fotos) */}
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
+          <div className="md:col-span-7 border-2 border-tinta shadow-carimbo bg-tinta text-papel p-8 flex flex-col justify-between">
+            <div className="flex items-center justify-between border-b border-papel/20 pb-3 mb-6 font-mono text-xs uppercase text-acento-amarelo">
+              <span className="flex items-center gap-1.5 font-bold"><Hammer className="w-4 h-4" /> Matriz de Tipos Móveis</span>
+              <span>Oficina Tipográfica</span>
+            </div>
+            <div className="my-auto py-4">
+              <div className="font-serifa italic text-4xl sm:text-5xl text-papel-claro leading-none">
+                pensamento ➔ gesto ➔ matriz ➔ corpo
+              </div>
+            </div>
+            <div className="pt-4 border-t border-papel/20 font-mono text-[10px] text-papel/60 uppercase">
+              Gravação em madeira de topo & clichês de chumbo mineral
+            </div>
           </div>
-          <div className="md:col-span-5 bg-madeira p-6 border-2 border-tinta shadow-carimbo">
-            <span className="font-mono text-xs uppercase font-bold text-tinta block mb-2">
-              FIG. 01 — REGISTRO EM ATELIER
-            </span>
-            <p className="font-corpo text-sm text-tinta leading-relaxed">
-              O pensamento não permanece no éter; ele é entalhado em madeira de reflorestamento, prensado em matriz de chumbo e espalhado como mancha sobre a folha crua.
-            </p>
+
+          <div className="md:col-span-5 bg-madeira p-6 border-2 border-tinta shadow-carimbo flex flex-col justify-between">
+            <div>
+              <span className="font-mono text-xs uppercase font-bold text-tinta block mb-2">
+                FIG. I — MATÉRIA & ATELIER
+              </span>
+              <p className="font-corpo text-sm text-tinta leading-relaxed">
+                O pensamento não permanece no éter; ele é entalhado em madeira de reflorestamento, prensado em matriz de chumbo e espalhado como mancha viva sobre a folha crua.
+              </p>
+            </div>
+            <div className="pt-4 border-t border-tinta font-mono text-[11px] uppercase text-tinta flex items-center gap-1">
+              <Sparkles className="w-3.5 h-3.5 text-acento-vermelho" />
+              <span>Espaço de Tecnologias e Artes • Sesc</span>
+            </div>
           </div>
         </div>
       </div>
