@@ -1,60 +1,87 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { audioMotor } from '../servicos/servicoAudio';
+import React, { createContext, useContext, useState } from 'react';
+import { servicoAudio } from '../servicos/servicoAudio';
 
 export type ModoExposicao = 'ler' | 'experimentar';
 
-export interface MemoriaSessao {
+export interface PontoGesto {
+  x: number;
+  y: number;
+}
+
+export interface MemoriaPercurso {
+  tempoInicio: number;
+  gestoInicial: PontoGesto[];
   glifosDissecados: string[];
   excertosLidos: string[];
+  materiaisExplorados: string[];
   carimbosAplicados: string[];
   marcasTotais: number;
-  tempoInicio: number;
 }
 
 interface ContextoExposicaoTipo {
   modo: ModoExposicao;
-  setModo: (modo: ModoExposicao) => void;
   alternarModo: () => void;
   audioAtivo: boolean;
   alternarAudio: () => void;
   tocarSom: (tipo: 'chumbo' | 'papel' | 'pedra' | 'madeira' | 'carimbo' | 'entalhe') => void;
-  memoria: MemoriaSessao;
+  prologoConcluido: boolean;
+  concluirPrologo: () => void;
+  reiniciarPrologo: () => void;
+  gravarPontoGesto: (ponto: PontoGesto) => void;
+  memoria: MemoriaPercurso;
   registrarGlifo: (glifo: string) => void;
-  registrarExcerto: (autor: string) => void;
+  registrarExcerto: (autorOuId: string) => void;
+  registrarMaterial: (mat: string) => void;
   adicionarCarimbo: (carimbo: string) => void;
 }
 
-const ContextoExposicao = createContext<ContextoExposicaoTipo | null>(null);
+const ContextoExposicao = createContext<ContextoExposicaoTipo | undefined>(undefined);
 
 export const ProvedorExposicao: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [modo, setModo] = useState<ModoExposicao>('experimentar');
   const [audioAtivo, setAudioAtivo] = useState<boolean>(true);
-  const [memoria, setMemoria] = useState<MemoriaSessao>({
+  const [prologoConcluido, setPrologoConcluido] = useState<boolean>(false);
+  const [memoria, setMemoria] = useState<MemoriaPercurso>({
+    tempoInicio: Date.now(),
+    gestoInicial: [],
     glifosDissecados: ['P'],
     excertosLidos: ['Paulo Freire'],
+    materiaisExplorados: ['pedra'],
     carimbosAplicados: ['MATÉRIA'],
-    marcasTotais: 1,
-    tempoInicio: Date.now()
+    marcasTotais: 1
   });
-
-  useEffect(() => {
-    audioMotor.setMutado(!audioAtivo);
-  }, [audioAtivo]);
 
   const alternarModo = () => {
     const novo = modo === 'ler' ? 'experimentar' : 'ler';
     setModo(novo);
-    tocarSom('papel');
+    if (audioAtivo) servicoAudio.tocar('papel');
   };
 
   const alternarAudio = () => {
-    setAudioAtivo(prev => !prev);
+    const novo = !audioAtivo;
+    setAudioAtivo(novo);
+    servicoAudio.setMutado(!novo);
   };
 
   const tocarSom = (tipo: 'chumbo' | 'papel' | 'pedra' | 'madeira' | 'carimbo' | 'entalhe') => {
-    if (audioAtivo) {
-      audioMotor.tocar(tipo);
-    }
+    if (audioAtivo) servicoAudio.tocar(tipo);
+  };
+
+  const concluirPrologo = () => {
+    setPrologoConcluido(true);
+    if (audioAtivo) servicoAudio.tocar('chumbo');
+  };
+
+  const reiniciarPrologo = () => {
+    setPrologoConcluido(false);
+  };
+
+  const gravarPontoGesto = (ponto: PontoGesto) => {
+    setMemoria(prev => ({
+      ...prev,
+      gestoInicial: [...prev.gestoInicial, ponto],
+      marcasTotais: prev.marcasTotais + 1
+    }));
   };
 
   const registrarGlifo = (glifo: string) => {
@@ -73,27 +100,39 @@ export const ProvedorExposicao: React.FC<{ children: React.ReactNode }> = ({ chi
     }));
   };
 
+  const registrarMaterial = (mat: string) => {
+    setMemoria(prev => ({
+      ...prev,
+      materiaisExplorados: Array.from(new Set([...prev.materiaisExplorados, mat])),
+      marcasTotais: prev.marcasTotais + 1
+    }));
+  };
+
   const adicionarCarimbo = (carimbo: string) => {
+    if (audioAtivo) servicoAudio.tocar('carimbo');
     setMemoria(prev => ({
       ...prev,
       carimbosAplicados: [...prev.carimbosAplicados, carimbo],
       marcasTotais: prev.marcasTotais + 1
     }));
-    tocarSom('carimbo');
   };
 
   return (
     <ContextoExposicao.Provider
       value={{
         modo,
-        setModo,
         alternarModo,
         audioAtivo,
         alternarAudio,
         tocarSom,
+        prologoConcluido,
+        concluirPrologo,
+        reiniciarPrologo,
+        gravarPontoGesto,
         memoria,
         registrarGlifo,
         registrarExcerto,
+        registrarMaterial,
         adicionarCarimbo
       }}
     >

@@ -117,3 +117,4 @@ class ServicoAudio {
 }
 
 export const audioMotor = new ServicoAudio();
+export const servicoAudio = audioMotor;

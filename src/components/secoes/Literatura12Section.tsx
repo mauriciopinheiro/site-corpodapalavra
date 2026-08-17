@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import { DADOS_LITERATURA_12, ExcertoReal12 } from '../../dados/dadosLiteratura12';
+import { DADOS_COMPORTAMENTOS_LITERATURA } from '../../dados/dadosComportamentosLiteratura';
 import { useExposicao } from '../../contexto/ContextoExposicao';
 import { EtiquetaAtelier } from '../ui/EtiquetaAtelier';
-import { Quote } from 'lucide-react';
+import { Quote, Sparkles, Activity } from 'lucide-react';
 
 export const Literatura12Section: React.FC = () => {
   const [excertoAtivoId, setExcertoAtivoId] = useState<number>(1);
   const { tocarSom, registrarExcerto } = useExposicao();
 
   const excertoAtual: ExcertoReal12 = DADOS_LITERATURA_12.find(e => e.id === excertoAtivoId) || DADOS_LITERATURA_12[0];
+  const comportamento = DADOS_COMPORTAMENTOS_LITERATURA[excertoAtivoId] || DADOS_COMPORTAMENTOS_LITERATURA[1];
 
   const handleSelecionar = (id: number) => {
     setExcertoAtivoId(id);
-    tocarSom('papel');
+    const comp = DADOS_COMPORTAMENTOS_LITERATURA[id];
+    tocarSom(comp ? comp.somAssociado : 'papel');
     const sel = DADOS_LITERATURA_12.find(e => e.id === id);
     if (sel) registrarExcerto(sel.autor);
   };
@@ -22,21 +25,22 @@ export const Literatura12Section: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 pb-6 border-b-2 border-tinta">
           <div>
-            <EtiquetaAtelier texto="12 Excertos Reais • Matriz Literária" variante="escuro" />
+            <EtiquetaAtelier texto="12 Excertos Reais • Comportamentos Vivos" variante="escuro" />
             <h2 className="font-anton uppercase text-4xl sm:text-5xl md:text-6xl text-tinta mt-3 tracking-tight">
               A LITERATURA TRANSFORMADA EM MATRIZ
             </h2>
             <p className="font-serifa italic text-tinta-desbotada text-base sm:text-lg mt-2 max-w-2xl">
-              Os 12 módulos literários da parede tipográfica: pensamento crítico, poesia concreta e vozes fundamentais da cultura brasileira talhadas no espaço.
+              Cada autor transforma a física e o comportamento da mancha gráfica: a interface reage e assume a matéria do pensamento.
             </p>
           </div>
 
-          <div className="font-mono text-xs text-tinta-cinza uppercase">
-            12 de 12 Excertos Expostos
+          <div className="font-mono text-xs bg-tinta text-papel px-3 py-1.5 font-bold uppercase flex items-center gap-1.5">
+            <Activity className="w-3.5 h-3.5 text-acento-vermelho" />
+            <span>FÍSICA: {comportamento.tagVisual}</span>
           </div>
         </div>
 
-        {/* Grade de Navegação pelos 12 Autores */}
+        {/* Grade de Seleção dos 12 Autores */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 mb-8">
           {DADOS_LITERATURA_12.map(item => (
             <button
@@ -58,12 +62,12 @@ export const Literatura12Section: React.FC = () => {
           ))}
         </div>
 
-        {/* Cartaz Tipográfico do Excerto Selecionado */}
-        <div className="bg-papel border-2 border-tinta shadow-carimbo-lg p-6 sm:p-10 md:p-12 relative overflow-hidden">
+        {/* Cartaz Tipográfico Reativo com a Física do Autor */}
+        <div className="bg-papel border-2 border-tinta shadow-carimbo-lg p-6 sm:p-10 md:p-12 relative overflow-hidden transition-all duration-300">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b-2 border-tinta pb-4 mb-6 gap-2">
             <div className="space-y-1">
               <span className="font-mono text-xs uppercase text-acento-vermelho font-bold">
-                Módulo Literário #{String(excertoAtual.id).padStart(2, '0')}
+                Módulo #{String(excertoAtual.id).padStart(2, '0')} • {comportamento.nomeEfeito}
               </span>
               <h3 className="font-anton uppercase text-3xl sm:text-4xl text-tinta">
                 {excertoAtual.autor} — <span className="font-serifa italic not-italic font-normal">{excertoAtual.obra} ({excertoAtual.ano})</span>
@@ -74,14 +78,18 @@ export const Literatura12Section: React.FC = () => {
             </div>
           </div>
 
-          {/* Destaque Monumental da Frase */}
-          <div className="my-6">
-            <p className="font-serifa text-2xl sm:text-3xl md:text-4xl text-tinta leading-snug font-bold">
+          {/* Mancha Reativa com a Tipografia e Estilo do Autor */}
+          <div className="my-8 py-4">
+            <p className={`${comportamento.estiloMancha} text-tinta leading-snug transition-all duration-300`}>
               “{excertoAtual.textoIntegral}”
             </p>
+            <div className="font-mono text-xs text-tinta-cinza mt-3 flex items-center gap-1.5 italic">
+              <Sparkles className="w-3.5 h-3.5 text-acento-vermelho" />
+              <span>Comportamento: {comportamento.interacaoFisica}</span>
+            </div>
           </div>
 
-          {/* Rodapé Curatorial do Módulo */}
+          {/* Rodapé Curatorial */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 border-t-2 border-tinta/20 pt-6 mt-6 items-center">
             <div className="md:col-span-8 flex items-center gap-2 font-corpo text-xs text-tinta">
               <Quote className="w-4 h-4 text-acento-vermelho shrink-0" />

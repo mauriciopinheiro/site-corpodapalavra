@@ -1,9 +1,14 @@
 import os
 import shutil
+import stat
+
+def remove_readonly(func, path, _):
+    os.chmod(path, stat.S_IWRITE)
+    func(path)
 
 pub_dir = os.path.abspath('firebase_public')
 if os.path.exists(pub_dir):
-    shutil.rmtree(pub_dir)
+    shutil.rmtree(pub_dir, onerror=remove_readonly)
 
 os.makedirs(pub_dir, exist_ok=True)
 sub_dir = os.path.join(pub_dir, 'corpo-da-palavra')
@@ -19,4 +24,4 @@ with open(root_index, 'w', encoding='utf-8') as f:
             '  <p>Redirecionando para <a href="/corpo-da-palavra/">corpoDApalavra — Sesc Santo André</a>...</p>\n'
             '</body>\n</html>\n')
 
-print('firebase_public successfully generated!')
+print('firebase_public successfully generated with read-only handler!')
