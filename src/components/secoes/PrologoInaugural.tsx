@@ -13,19 +13,22 @@ export const PrologoInaugural: React.FC = () => {
   const [pontosMorfados, setPontosMorfados] = useState<Ponto[]>([]);
   const animRef = useRef<number | null>(null);
 
-  const obterCoord = (e: React.MouseEvent<SVGSVGElement> | React.TouchEvent<SVGSVGElement>): Ponto => {
+  const obterCoord = (e: React.PointerEvent<SVGSVGElement>): Ponto => {
     const svg = svgRef.current;
     if (!svg) return { x: 300, y: 175 };
     const rect = svg.getBoundingClientRect();
-    const cx = 'touches' in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX;
-    const cy = 'touches' in e ? e.touches[0].clientY : (e as React.MouseEvent).clientY;
-    const x = ((cx - rect.left) / rect.width) * 600;
-    const y = ((cy - rect.top) / rect.height) * 350;
-    return { x, y };
+    const x = ((e.clientX - rect.left) / rect.width) * 600;
+    const y = ((e.clientY - rect.top) / rect.height) * 350;
+    return { x: Math.max(10, Math.min(590, x)), y: Math.max(10, Math.min(340, y)) };
   };
 
-  const iniciarGesto = (e: React.MouseEvent<SVGSVGElement> | React.TouchEvent<SVGSVGElement>) => {
-    if (estagio === 'morfando') return;
+  const handlePointerDown = (e: React.PointerEvent<SVGSVGElement>) => {
+    if (estagio === 'morfando' || estagio === 'corpo') return;
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {
+      // Ignora se não for suportado
+    }
     setDesenhando(true);
     setEstagio('gesto');
     tocarSom('entalhe');
@@ -34,7 +37,7 @@ export const PrologoInaugural: React.FC = () => {
     setPontosMorfados([pt]);
   };
 
-  const desenhar = (e: React.MouseEvent<SVGSVGElement> | React.TouchEvent<SVGSVGElement>) => {
+  const handlePointerMove = (e: React.PointerEvent<SVGSVGElement>) => {
     if (!desenhando) return;
     const pt = obterCoord(e);
     setPontos(prev => {
@@ -45,21 +48,29 @@ export const PrologoInaugural: React.FC = () => {
     });
   };
 
-  const finalizarGesto = () => {
-    if (!desenhando || pontos.length < 3) {
-      setDesenhando(false);
-      return;
-    }
+  const handlePointerUp = (e: React.PointerEvent<SVGSVGElement>) => {
+    if (!desenhando) return;
     setDesenhando(false);
-    setEstagio('morfando');
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch {
+      // Ignora
+    }
 
+    if (pontos.length < 2) {
+      // Se deu só um clique, cria um segundo ponto para formar o traço
+      const pt = pontos[0] || { x: 300, y: 175 };
+      pontos.push({ x: pt.x + 10, y: pt.y + 10 });
+    }
+
+    setEstagio('morfando');
     const ptsOrig = reamostrarPontos(pontos, 64);
     const ptsAlvo = gerarPontosAlvoP(300, 175, 230, 64);
     let inicio: number | null = null;
 
     const animar = (agora: number) => {
       if (!inicio) inicio = agora;
-      const prog = Math.min(1, (agora - inicio) / 1200);
+      const prog = Math.min(1, (agora - inicio) / 1100);
       const atual = interpolarPontos(ptsOrig, ptsAlvo, prog);
       setPontosMorfados(atual);
 
@@ -67,7 +78,7 @@ export const PrologoInaugural: React.FC = () => {
         animRef.current = requestAnimationFrame(animar);
       } else {
         tocarSom('chumbo');
-        setTimeout(() => setEstagio('corpo'), 350);
+        setTimeout(() => setEstagio('corpo'), 300);
       }
     };
     animRef.current = requestAnimationFrame(animar);
@@ -84,7 +95,7 @@ export const PrologoInaugural: React.FC = () => {
   if (prologoConcluido) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-papel flex flex-col items-center justify-between p-6 select-none overflow-hidden">
+    <div className="fixed inset-0 z-50 bg-papel flex flex-col items-center justify-between p-4 sm:p-6 select-none overflow-hidden">
       <div className="w-full max-w-4xl flex items-center justify-between font-mono text-xs uppercase text-tinta-cinza pt-2">
         <span className="font-bold tracking-widest text-tinta flex items-center gap-1.5">
           <Feather className="w-4 h-4 text-acento-vermelho" /> PRÓLOGO • O GESTO TRANSFORMA-SE EM LETRA
@@ -109,13 +120,12 @@ export const PrologoInaugural: React.FC = () => {
         <svg
           ref={svgRef}
           viewBox="0 0 600 350"
-          onMouseDown={iniciarGesto}
-          onMouseMove={desenhar}
-          onMouseUp={finalizarGesto}
-          onTouchStart={iniciarGesto}
-          onTouchMove={desenhar}
-          onTouchEnd={finalizarGesto}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerUp}
           className="w-full h-full cursor-crosshair border-2 border-dashed border-tinta/30 bg-papel-claro/50 touch-none shadow-carimbo"
+          style={{ touchAction: 'none' }}
         >
           {pontosMorfados.length > 1 && (
             <path
@@ -125,7 +135,6 @@ export const PrologoInaugural: React.FC = () => {
               strokeWidth={estagio === 'corpo' ? 22 : 18}
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="transition-all duration-75"
             />
           )}
         </svg>
