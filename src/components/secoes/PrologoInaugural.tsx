@@ -1,82 +1,108 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useExposicao } from '../../contexto/ContextoExposicao';
-import { ArrowRight, Sparkles, RotateCcw } from 'lucide-react';
+import { Ponto, reamostrarPontos, gerarPontosAlvoP, interpolarPontos } from '../../servicos/transformadorP';
+import { ArrowRight, Sparkles, RotateCcw, Feather } from 'lucide-react';
 
 export const PrologoInaugural: React.FC = () => {
   const { prologoConcluido, concluirPrologo, tocarSom, gravarPontoGesto } = useExposicao();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [desenhando, setDesenhando] = useState(false);
-  const [estagio, setEstagio] = useState<'silencio' | 'gesto' | 'letra' | 'corpo'>('silencio');
-  const [pontos, setPontos] = useState<{ x: number; y: number }[]>([]);
+  const [estagio, setEstagio] = useState<'silencio' | 'gesto' | 'morfando' | 'corpo'>('silencio');
+  const [pontos, setPontos] = useState<Ponto[]>([]);
+  const animFrameRef = useRef<number | null>(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const cv = canvasRef.current;
+    if (!cv) return;
+    const ctx = cv.getContext('2d');
     if (!ctx) return;
-
-    canvas.width = canvas.offsetWidth * window.devicePixelRatio;
-    canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+    cv.width = cv.offsetWidth * window.devicePixelRatio;
+    cv.height = cv.offsetHeight * window.devicePixelRatio;
     ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
   }, []);
 
+  const desenharCaminho = (pts: Ponto[], espessura = 16) => {
+    const cv = canvasRef.current;
+    if (!cv || pts.length < 2) return;
+    const ctx = cv.getContext('2d');
+    if (!ctx) return;
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    ctx.strokeStyle = '#0A0A0A';
+    ctx.lineWidth = espessura;
+    ctx.beginPath();
+    ctx.moveTo(pts[0].x, pts[0].y);
+    for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i].x, pts[i].y);
+    ctx.stroke();
+  };
+
+  const obterCoord = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>): Ponto => {
+    const cv = canvasRef.current;
+    if (!cv) return { x: 0, y: 0 };
+    const r = cv.getBoundingClientRect();
+    const cx = 'touches' in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX;
+    const cy = 'touches' in e ? e.touches[0].clientY : (e as React.MouseEvent).clientY;
+    return { x: cx - r.left, y: cy - r.top };
+  };
+
   const iniciarGesto = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
+    if (estagio === 'morfando') return;
     setDesenhando(true);
     setEstagio('gesto');
     tocarSom('entalhe');
-    desenhar(e);
-  };
-
-  const finalizarGesto = () => {
-    setDesenhando(false);
-    if (pontos.length > 5) {
-      setTimeout(() => {
-        setEstagio('letra');
-        tocarSom('chumbo');
-      }, 400);
-      setTimeout(() => {
-        setEstagio('corpo');
-        tocarSom('madeira');
-      }, 1600);
-    }
+    const pt = obterCoord(e);
+    setPontos([pt]);
   };
 
   const desenhar = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
-    if (!desenhando && e.type !== 'mousedown' && e.type !== 'touchstart') return;
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const rect = canvas.getBoundingClientRect();
-    const clientX = 'touches' in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX;
-    const clientY = 'touches' in e ? e.touches[0].clientY : (e as React.MouseEvent).clientY;
-    const x = clientX - rect.left;
-    const y = clientY - rect.top;
-
-    const novoPonto = { x, y };
-    setPontos(prev => [...prev, novoPonto]);
-    gravarPontoGesto(novoPonto);
-
-    ctx.strokeStyle = '#0A0A0A';
-    ctx.lineWidth = 14;
-    ctx.beginPath();
-    if (pontos.length > 0) {
-      const ultimo = pontos[pontos.length - 1];
-      ctx.moveTo(ultimo.x, ultimo.y);
-      ctx.lineTo(x, y);
-      ctx.stroke();
-    }
+    if (!desenhando) return;
+    const pt = obterCoord(e);
+    setPontos(prev => {
+      const novos = [...prev, pt];
+      desenharCaminho(novos, 16);
+      gravarPontoGesto(pt);
+      return novos;
+    });
   };
 
-  const limparCanvas = () => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const finalizarGesto = () => {
+    if (!desenhando || pontos.length < 3) {
+      setDesenhando(false);
+      return;
+    }
+    setDesenhando(false);
+    setEstagio('morfando');
+    const cv = canvasRef.current;
+    if (!cv) return;
+
+    const ptsOrig = reamostrarPontos(pontos, 64);
+    const ptsAlvo = gerarPontosAlvoP(cv.offsetWidth / 2, cv.offsetHeight / 2, 200, 64);
+    let inicio: number | null = null;
+
+    const animar = (agora: number) => {
+      if (!inicio) inicio = agora;
+      const progresso = Math.min(1, (agora - inicio) / 1200);
+      desenharCaminho(interpolarPontos(ptsOrig, ptsAlvo, progresso), 16 + progresso * 4);
+
+      if (progresso < 1) {
+        animFrameRef.current = requestAnimationFrame(animar);
+      } else {
+        tocarSom('chumbo');
+        setTimeout(() => setEstagio('corpo'), 350);
+      }
+    };
+    animFrameRef.current = requestAnimationFrame(animar);
+  };
+
+  const limpar = () => {
+    if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+    const cv = canvasRef.current;
+    if (cv) {
+      const ctx = cv.getContext('2d');
+      if (ctx) ctx.clearRect(0, 0, cv.width, cv.height);
+    }
     setPontos([]);
     setEstagio('silencio');
     tocarSom('papel');
@@ -86,30 +112,23 @@ export const PrologoInaugural: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-50 bg-papel flex flex-col items-center justify-between p-6 select-none overflow-hidden">
-      {/* Topo do Prólogo */}
       <div className="w-full max-w-4xl flex items-center justify-between font-mono text-xs uppercase text-tinta-cinza pt-2">
-        <span className="font-bold tracking-widest text-tinta">PRÓLOGO • O SILÊNCIO DA MATÉRIA</span>
-        <button
-          onClick={concluirPrologo}
-          className="underline hover:text-tinta text-tinta-cinza"
-        >
-          Pular para a Exposição [→]
+        <span className="font-bold tracking-widest text-tinta flex items-center gap-1.5">
+          <Feather className="w-4 h-4 text-acento-vermelho" /> PRÓLOGO • O GESTO TRANSFORMA-SE EM LETRA
+        </span>
+        <button onClick={concluirPrologo} className="underline hover:text-tinta text-tinta-cinza">
+          Pular [→]
         </button>
       </div>
 
-      {/* Centro: Canvas de Gesto ou Morfogênese */}
       <div className="relative w-full max-w-2xl h-80 sm:h-96 my-auto flex items-center justify-center">
         {estagio === 'silencio' && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="absolute text-center space-y-2 pointer-events-none"
-          >
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="absolute text-center space-y-2 pointer-events-none">
             <p className="font-serifa italic text-2xl sm:text-3xl md:text-4xl text-tinta-desbotada">
-              “Faça um gesto sobre a matéria.”
+              “Faça qualquer risco sobre a matéria.”
             </p>
             <span className="font-mono text-xs uppercase text-acento-vermelho font-bold block">
-              [ Clique e arraste para riscar a primeira linha ]
+              [ Risque livremente: qualquer traço dobrará e virará um P ]
             </span>
           </motion.div>
         )}
@@ -122,61 +141,44 @@ export const PrologoInaugural: React.FC = () => {
           onTouchStart={iniciarGesto}
           onTouchMove={desenhar}
           onTouchEnd={finalizarGesto}
-          className={`w-full h-full cursor-crosshair border-2 border-dashed border-tinta/30 bg-papel-claro/50 transition-opacity ${
-            estagio === 'corpo' ? 'opacity-20' : 'opacity-100'
-          }`}
+          className="w-full h-full cursor-crosshair border-2 border-dashed border-tinta/30 bg-papel-claro/50"
         />
 
-        {/* Morfogênese: Letra e Revelação */}
         <AnimatePresence>
-          {estagio === 'letra' && (
-            <motion.div
-              initial={{ scale: 0.5, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 1.2, opacity: 0 }}
-              className="absolute font-serifa font-black text-9xl text-tinta pointer-events-none"
-            >
-              P
-            </motion.div>
-          )}
-
           {estagio === 'corpo' && (
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6 }}
               className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 bg-papel/95 border-2 border-tinta shadow-carimbo-lg space-y-4"
             >
               <span className="font-mono text-xs uppercase text-acento-vermelho font-bold flex items-center gap-1">
-                <Sparkles className="w-3.5 h-3.5" /> Gesto Concluído
+                <Sparkles className="w-3.5 h-3.5" /> Metamorfose Concluída
               </span>
               <h2 className="font-serifa italic text-3xl sm:text-4xl md:text-5xl text-tinta font-bold">
                 “Você acabou de dar corpo a uma ideia.”
               </h2>
               <p className="font-corpo text-sm text-tinta max-w-md">
-                O pensamento tornou-se gesto. O gesto deixou sua marca. A matéria da palavra começa aqui.
+                O seu risco livre dobrou-se, esticou-se e converteu-se na matriz da letra. A matéria da palavra começa aqui.
               </p>
-              <button
-                onClick={concluirPrologo}
-                className="inline-flex items-center gap-2 bg-tinta text-papel-claro px-8 py-3.5 font-mono text-xs uppercase font-bold shadow-carimbo hover:bg-acento-azul transition-all"
-              >
-                <span>Entrar no corpoDApalavra</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
+              <div className="flex items-center gap-3">
+                <button onClick={limpar} className="px-4 py-3 bg-papel border-2 border-tinta font-mono text-xs uppercase font-bold shadow-carimbo hover:bg-madeira">
+                  Tentar Outro Risco
+                </button>
+                <button onClick={concluirPrologo} className="inline-flex items-center gap-2 bg-tinta text-papel-claro px-6 py-3 font-mono text-xs uppercase font-bold shadow-carimbo hover:bg-acento-azul transition-all">
+                  <span>Entrar na Exposição</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
 
-      {/* Rodapé do Prólogo */}
       <div className="w-full max-w-4xl flex items-center justify-between font-mono text-xs text-tinta-cinza pb-2">
         <span>Sesc Santo André • Espaço de Tecnologias e Artes</span>
-        {pontos.length > 0 && estagio !== 'corpo' && (
-          <button
-            onClick={limparCanvas}
-            className="flex items-center gap-1 text-tinta hover:underline"
-          >
-            <RotateCcw className="w-3.5 h-3.5" /> Limpar Matriz
+        {pontos.length > 0 && estagio !== 'morfando' && estagio !== 'corpo' && (
+          <button onClick={limpar} className="flex items-center gap-1 text-tinta hover:underline">
+            <RotateCcw className="w-3.5 h-3.5" /> Limpar Risco
           </button>
         )}
       </div>
