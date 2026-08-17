@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
-import { Menu, X, Volume2, VolumeX, Eye, Sparkles, MapPin, Feather } from 'lucide-react';
+import { Menu, X, Volume2, VolumeX, Eye, Sparkles, MapPin } from 'lucide-react';
 import { useExposicao } from '../../contexto/ContextoExposicao';
 
 export const Navbar: React.FC = () => {
   const [menuAberto, setMenuAberto] = useState(false);
-  const { modo, alternarModo, audioAtivo, alternarAudio, prologoConcluido, reiniciarPrologo } = useExposicao();
-
-  if (!prologoConcluido) return null;
+  const { modo, alternarModo, audioAtivo, alternarAudio } = useExposicao();
 
   const linksNav = [
     { label: 'sobre', href: '#sobre' },
     { label: 'oSERgráfica', href: '#manifesto' },
     { label: 'oSERlivro', href: '#dois-seres' },
-    { label: 'oSERtipografia', href: '#az-modular' },
+    { label: 'materiais', href: '#materiais' },
     { label: 'A–Z real', href: '#az-modular' },
     { label: '12 excertos', href: '#literatura-12' },
     { label: 'anatomia', href: '#anatomia' },
@@ -21,7 +19,7 @@ export const Navbar: React.FC = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-papel/95 backdrop-blur-sm border-b-2 border-tinta animate-fadeIn">
+    <header className="sticky top-0 z-40 w-full bg-papel/95 backdrop-blur-sm border-b-2 border-tinta">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 py-2.5 flex items-center justify-between gap-2">
         {/* Logo / Título Conceitual */}
         <a
@@ -49,15 +47,6 @@ export const Navbar: React.FC = () => {
 
         {/* Controles de Modo LER/EXP, Som e Visite */}
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-          <button
-            onClick={reiniciarPrologo}
-            className="p-1 sm:p-1.5 border-2 border-tinta bg-papel hover:bg-madeira transition-colors"
-            title="Revisitar Prólogo do Gesto"
-            aria-label="Revisitar Prólogo"
-          >
-            <Feather className="w-3.5 h-3.5 text-tinta" />
-          </button>
-
           <button
             onClick={alternarModo}
             className={`flex items-center gap-1 px-2 sm:px-2.5 py-1 border-2 border-tinta font-mono text-[10px] sm:text-xs uppercase font-bold transition-all ${

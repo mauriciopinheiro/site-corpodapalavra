@@ -1,6 +1,5 @@
 import React from 'react';
 import { ProvedorExposicao } from './contexto/ContextoExposicao';
-import { PrologoInaugural } from './components/secoes/PrologoInaugural';
 import { BarraProgresso } from './components/layout/BarraProgresso';
 import { CursorCustomizado } from './components/layout/CursorCustomizado';
 import { Navbar } from './components/layout/Navbar';
@@ -26,62 +25,59 @@ export const App: React.FC = () => {
   return (
     <ProvedorExposicao>
       <div className="min-h-screen bg-papel text-tinta flex flex-col selection:bg-tinta selection:text-papel-claro">
-        {/* 1. Momento 1: Prólogo do Gesto & Matéria */}
-        <PrologoInaugural />
-
-        {/* Controles globais e navegação */}
+        {/* Controles globais e navegação fluida */}
         <BarraProgresso />
         <CursorCustomizado />
         <Navbar />
 
         {/* Narrativa Curatorial da Exposição corpoDApalavra */}
         <main className="flex-1 w-full flex flex-col" id="conteudo-principal">
-          {/* Abertura e Hero */}
+          {/* 1. Hero com Bancada Viva do Gesto & Palavra */}
           <HeroSection />
 
-          {/* Sobre o Conceito e os 4 Pilares */}
+          {/* 2. Sobre o Conceito e os 4 Pilares */}
           <SobreSection />
 
-          {/* Manifesto — oSERgráfica */}
+          {/* 3. Manifesto — oSERgráfica */}
           <ManifestoSection />
 
-          {/* Dois Seres — oSERlivro & oSERtipografia com Dobra Física */}
+          {/* 4. Dois Seres — oSERlivro & oSERtipografia com Dobra Física */}
           <DoisSeresSection />
 
-          {/* 2. Momento 2: Transição Cinematográfica Livro -> Anatomia */}
+          {/* 5. Transição Cinematográfica Livro -> Anatomia */}
           <TransicaoLivroTipografia />
 
-          {/* Anatomia da Letra com Dissecação Visual em SVG */}
+          {/* 6. Anatomia da Letra com Dissecação Visual em SVG */}
           <AnatomiaLetraDissecada />
 
-          {/* Arqueologia dos Materiais com Comportamentos Físicos */}
+          {/* 7. Arqueologia dos Materiais com os 6 Laboratórios Físicos */}
           <ArqueologiaMateriaisInterativa />
 
-          {/* 3. Momento 3: O A–Z Real com Modo Monumental Fullscreen */}
+          {/* 8. O A–Z Real com Modo Monumental Fullscreen */}
           <AZPainelModular />
 
-          {/* Parede Tipográfica Interativa (36 módulos de madeira) */}
+          {/* 9. Parede Tipográfica Interativa (36 módulos de madeira) */}
           <ParedeTipografica />
 
-          {/* 4. Momento 4: Os 12 Excertos com Comportamentos Vivos */}
+          {/* 10. Os 12 Excertos com Comportamentos Vivos */}
           <Literatura12Section />
 
-          {/* A Palavra como Imagem */}
+          {/* 11. A Palavra como Imagem */}
           <PalavraComoImagem />
 
-          {/* Pranchas e Diagramas Técnicos Expográficos */}
+          {/* 12. Pranchas e Diagramas Técnicos Expográficos */}
           <GaleriaEspaco />
 
-          {/* Glossário do Corpo da Letra */}
+          {/* 13. Glossário do Corpo da Letra */}
           <GlossarioVivo />
 
-          {/* 5. Momento 5: Epílogo com Prova de Prelo 100% Gerativa */}
+          {/* 14. Epílogo com Prova de Prelo 100% Gerativa */}
           <EpilogoMemoriaPercurso />
 
-          {/* Informações de Visita ao Sesc Santo André */}
+          {/* 15. Informações de Visita ao Sesc Santo André */}
           <InformacoesVisita />
 
-          {/* Ficha Técnica e Créditos Oficiais */}
+          {/* 16. Ficha Técnica e Créditos Oficiais */}
           <CreditosSection />
         </main>
 

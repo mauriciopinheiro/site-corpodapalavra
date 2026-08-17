@@ -22,7 +22,7 @@ export const ArqueologiaMateriaisInterativa: React.FC = () => {
   };
 
   return (
-    <section className="relative py-16 md:py-24 px-4 md:px-8 border-b-2 border-tinta bg-papel-claro">
+    <section id="materiais" className="relative py-16 md:py-24 px-4 md:px-8 border-b-2 border-tinta bg-papel-claro">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 pb-6 border-b-2 border-tinta">
           <div>
