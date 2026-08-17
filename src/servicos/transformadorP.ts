@@ -4,7 +4,7 @@ export interface Ponto {
 }
 
 /**
- * Reamostra uma lista de pontos para ter exatamente N pontos uniformemente espaçados ao longo do comprimento total.
+ * Reamostra uma lista de pontos para ter exatamente totalPontos uniformemente espaçados.
  */
 export function reamostrarPontos(pontos: Ponto[], totalPontos: number = 64): Ponto[] {
   if (!pontos || pontos.length === 0) return [];
@@ -12,7 +12,6 @@ export function reamostrarPontos(pontos: Ponto[], totalPontos: number = 64): Pon
     return Array.from({ length: totalPontos }, () => ({ ...pontos[0] }));
   }
 
-  // 1. Calcular distâncias acumuladas
   const distancias: number[] = [0];
   for (let i = 1; i < pontos.length; i++) {
     const dx = pontos[i].x - pontos[i - 1].x;
@@ -49,20 +48,20 @@ export function reamostrarPontos(pontos: Ponto[], totalPontos: number = 64): Pon
 }
 
 /**
- * Gera N pontos paramétricos formando o traçado contínuo e monumental da letra capital 'P' com haste e bojo curvo.
+ * Gera os 64 pontos paramétricos da letra 'P' com proporções nobres de prelo.
  */
 export function gerarPontosAlvoP(centroX: number, centroY: number, altura: number = 220, totalPontos: number = 64): Ponto[] {
-  const largura = altura * 0.65;
+  const largura = altura * 0.62;
   const xHaste = centroX - largura * 0.35;
   const yTopo = centroY - altura * 0.5;
   const yBase = centroY + altura * 0.5;
   const yMeio = centroY;
-  const xBojoDireita = centroX + largura * 0.5;
+  const xBojoDireita = centroX + largura * 0.55;
 
   const pontosP: Ponto[] = [];
 
-  // Segmento 1: Haste de baixo para cima (30% dos pontos)
-  const ptsHaste = Math.floor(totalPontos * 0.3);
+  // Segmento 1: Haste subindo de yBase para yTopo (32% dos pontos)
+  const ptsHaste = Math.floor(totalPontos * 0.32);
   for (let i = 0; i < ptsHaste; i++) {
     const t = i / (ptsHaste - 1);
     pontosP.push({
@@ -71,11 +70,10 @@ export function gerarPontosAlvoP(centroX: number, centroY: number, altura: numbe
     });
   }
 
-  // Segmento 2: Bojo curvo superior (45% dos pontos) - arco elíptico do topo ao meio da haste
-  const ptsBojo = Math.floor(totalPontos * 0.45);
+  // Segmento 2: Bojo curvo superior do topo ao meio (44% dos pontos)
+  const ptsBojo = Math.floor(totalPontos * 0.44);
   for (let i = 0; i < ptsBojo; i++) {
     const t = i / (ptsBojo - 1);
-    // Ângulo de -PI/2 (topo) até +PI/2 (meio)
     const angulo = -Math.PI / 2 + Math.PI * t;
     const raioX = xBojoDireita - xHaste;
     const raioY = (yMeio - yTopo) / 2;
@@ -87,7 +85,7 @@ export function gerarPontosAlvoP(centroX: number, centroY: number, altura: numbe
     });
   }
 
-  // Segmento 3: Fechamento de volta para o pé e serifa inferior (o restante dos pontos)
+  // Segmento 3: Haste descendo até a base (o restante dos pontos)
   const ptsRestantes = totalPontos - pontosP.length;
   for (let i = 0; i < ptsRestantes; i++) {
     const t = i / (ptsRestantes - 1);
@@ -101,10 +99,9 @@ export function gerarPontosAlvoP(centroX: number, centroY: number, altura: numbe
 }
 
 /**
- * Interpolação elástica/física entre o traço do usuário e a letra P
+ * Interpolação com física elástica/magnética entre o traço do usuário e a letra P.
  */
 export function interpolarPontos(origem: Ponto[], destino: Ponto[], t: number): Ponto[] {
-  // Easing cúbico para desaceleração suave e encaixe magnético
   const ease = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
   return origem.map((pOrig, idx) => {
@@ -114,4 +111,22 @@ export function interpolarPontos(origem: Ponto[], destino: Ponto[], t: number): 
       y: pOrig.y + (pDest.y - pOrig.y) * ease
     };
   });
+}
+
+/**
+ * Converte uma lista de pontos em um path SVG suave com curvas suaves.
+ */
+export function pontosParaSvgPath(pts: Ponto[]): string {
+  if (!pts || pts.length === 0) return '';
+  if (pts.length === 1) return `M ${pts[0].x} ${pts[0].y}`;
+
+  let d = `M ${pts[0].x.toFixed(1)} ${pts[0].y.toFixed(1)}`;
+  for (let i = 1; i < pts.length - 1; i++) {
+    const xc = (pts[i].x + pts[i + 1].x) / 2;
+    const yc = (pts[i].y + pts[i + 1].y) / 2;
+    d += ` Q ${pts[i].x.toFixed(1)} ${pts[i].y.toFixed(1)}, ${xc.toFixed(1)} ${yc.toFixed(1)}`;
+  }
+  const ultimo = pts[pts.length - 1];
+  d += ` L ${ultimo.x.toFixed(1)} ${ultimo.y.toFixed(1)}`;
+  return d;
 }

@@ -1,67 +1,45 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useExposicao } from '../../contexto/ContextoExposicao';
-import { Ponto, reamostrarPontos, gerarPontosAlvoP, interpolarPontos } from '../../servicos/transformadorP';
+import { Ponto, reamostrarPontos, gerarPontosAlvoP, interpolarPontos, pontosParaSvgPath } from '../../servicos/transformadorP';
 import { ArrowRight, Sparkles, RotateCcw, Feather } from 'lucide-react';
 
 export const PrologoInaugural: React.FC = () => {
   const { prologoConcluido, concluirPrologo, tocarSom, gravarPontoGesto } = useExposicao();
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const svgRef = useRef<SVGSVGElement | null>(null);
   const [desenhando, setDesenhando] = useState(false);
   const [estagio, setEstagio] = useState<'silencio' | 'gesto' | 'morfando' | 'corpo'>('silencio');
   const [pontos, setPontos] = useState<Ponto[]>([]);
-  const animFrameRef = useRef<number | null>(null);
+  const [pontosMorfados, setPontosMorfados] = useState<Ponto[]>([]);
+  const animRef = useRef<number | null>(null);
 
-  useEffect(() => {
-    const cv = canvasRef.current;
-    if (!cv) return;
-    const ctx = cv.getContext('2d');
-    if (!ctx) return;
-    cv.width = cv.offsetWidth * window.devicePixelRatio;
-    cv.height = cv.offsetHeight * window.devicePixelRatio;
-    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-  }, []);
-
-  const desenharCaminho = (pts: Ponto[], espessura = 16) => {
-    const cv = canvasRef.current;
-    if (!cv || pts.length < 2) return;
-    const ctx = cv.getContext('2d');
-    if (!ctx) return;
-    ctx.clearRect(0, 0, cv.width, cv.height);
-    ctx.strokeStyle = '#0A0A0A';
-    ctx.lineWidth = espessura;
-    ctx.beginPath();
-    ctx.moveTo(pts[0].x, pts[0].y);
-    for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i].x, pts[i].y);
-    ctx.stroke();
-  };
-
-  const obterCoord = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>): Ponto => {
-    const cv = canvasRef.current;
-    if (!cv) return { x: 0, y: 0 };
-    const r = cv.getBoundingClientRect();
+  const obterCoord = (e: React.MouseEvent<SVGSVGElement> | React.TouchEvent<SVGSVGElement>): Ponto => {
+    const svg = svgRef.current;
+    if (!svg) return { x: 300, y: 175 };
+    const rect = svg.getBoundingClientRect();
     const cx = 'touches' in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX;
     const cy = 'touches' in e ? e.touches[0].clientY : (e as React.MouseEvent).clientY;
-    return { x: cx - r.left, y: cy - r.top };
+    const x = ((cx - rect.left) / rect.width) * 600;
+    const y = ((cy - rect.top) / rect.height) * 350;
+    return { x, y };
   };
 
-  const iniciarGesto = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
+  const iniciarGesto = (e: React.MouseEvent<SVGSVGElement> | React.TouchEvent<SVGSVGElement>) => {
     if (estagio === 'morfando') return;
     setDesenhando(true);
     setEstagio('gesto');
     tocarSom('entalhe');
     const pt = obterCoord(e);
     setPontos([pt]);
+    setPontosMorfados([pt]);
   };
 
-  const desenhar = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
+  const desenhar = (e: React.MouseEvent<SVGSVGElement> | React.TouchEvent<SVGSVGElement>) => {
     if (!desenhando) return;
     const pt = obterCoord(e);
     setPontos(prev => {
       const novos = [...prev, pt];
-      desenharCaminho(novos, 16);
+      setPontosMorfados(novos);
       gravarPontoGesto(pt);
       return novos;
     });
@@ -74,36 +52,31 @@ export const PrologoInaugural: React.FC = () => {
     }
     setDesenhando(false);
     setEstagio('morfando');
-    const cv = canvasRef.current;
-    if (!cv) return;
 
     const ptsOrig = reamostrarPontos(pontos, 64);
-    const ptsAlvo = gerarPontosAlvoP(cv.offsetWidth / 2, cv.offsetHeight / 2, 200, 64);
+    const ptsAlvo = gerarPontosAlvoP(300, 175, 230, 64);
     let inicio: number | null = null;
 
     const animar = (agora: number) => {
       if (!inicio) inicio = agora;
-      const progresso = Math.min(1, (agora - inicio) / 1200);
-      desenharCaminho(interpolarPontos(ptsOrig, ptsAlvo, progresso), 16 + progresso * 4);
+      const prog = Math.min(1, (agora - inicio) / 1200);
+      const atual = interpolarPontos(ptsOrig, ptsAlvo, prog);
+      setPontosMorfados(atual);
 
-      if (progresso < 1) {
-        animFrameRef.current = requestAnimationFrame(animar);
+      if (prog < 1) {
+        animRef.current = requestAnimationFrame(animar);
       } else {
         tocarSom('chumbo');
         setTimeout(() => setEstagio('corpo'), 350);
       }
     };
-    animFrameRef.current = requestAnimationFrame(animar);
+    animRef.current = requestAnimationFrame(animar);
   };
 
   const limpar = () => {
-    if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
-    const cv = canvasRef.current;
-    if (cv) {
-      const ctx = cv.getContext('2d');
-      if (ctx) ctx.clearRect(0, 0, cv.width, cv.height);
-    }
+    if (animRef.current) cancelAnimationFrame(animRef.current);
     setPontos([]);
+    setPontosMorfados([]);
     setEstagio('silencio');
     tocarSom('papel');
   };
@@ -116,40 +89,53 @@ export const PrologoInaugural: React.FC = () => {
         <span className="font-bold tracking-widest text-tinta flex items-center gap-1.5">
           <Feather className="w-4 h-4 text-acento-vermelho" /> PRÓLOGO • O GESTO TRANSFORMA-SE EM LETRA
         </span>
-        <button onClick={concluirPrologo} className="underline hover:text-tinta text-tinta-cinza">
-          Pular [→]
+        <button onClick={concluirPrologo} className="underline hover:text-tinta text-tinta-cinza font-bold">
+          Pular para a Exposição [→]
         </button>
       </div>
 
       <div className="relative w-full max-w-2xl h-80 sm:h-96 my-auto flex items-center justify-center">
         {estagio === 'silencio' && (
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="absolute text-center space-y-2 pointer-events-none">
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="absolute text-center space-y-2 pointer-events-none z-10">
             <p className="font-serifa italic text-2xl sm:text-3xl md:text-4xl text-tinta-desbotada">
               “Faça qualquer risco sobre a matéria.”
             </p>
             <span className="font-mono text-xs uppercase text-acento-vermelho font-bold block">
-              [ Risque livremente: qualquer traço dobrará e virará um P ]
+              [ Risque com o mouse ou dedo: o traço dobrará e virará um P ]
             </span>
           </motion.div>
         )}
 
-        <canvas
-          ref={canvasRef}
+        <svg
+          ref={svgRef}
+          viewBox="0 0 600 350"
           onMouseDown={iniciarGesto}
           onMouseMove={desenhar}
           onMouseUp={finalizarGesto}
           onTouchStart={iniciarGesto}
           onTouchMove={desenhar}
           onTouchEnd={finalizarGesto}
-          className="w-full h-full cursor-crosshair border-2 border-dashed border-tinta/30 bg-papel-claro/50"
-        />
+          className="w-full h-full cursor-crosshair border-2 border-dashed border-tinta/30 bg-papel-claro/50 touch-none shadow-carimbo"
+        >
+          {pontosMorfados.length > 1 && (
+            <path
+              d={pontosParaSvgPath(pontosMorfados)}
+              fill="none"
+              stroke="#0A0A0A"
+              strokeWidth={estagio === 'corpo' ? 22 : 18}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="transition-all duration-75"
+            />
+          )}
+        </svg>
 
         <AnimatePresence>
           {estagio === 'corpo' && (
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 bg-papel/95 border-2 border-tinta shadow-carimbo-lg space-y-4"
+              className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 bg-papel/95 border-2 border-tinta shadow-carimbo-lg space-y-4 z-20"
             >
               <span className="font-mono text-xs uppercase text-acento-vermelho font-bold flex items-center gap-1">
                 <Sparkles className="w-3.5 h-3.5" /> Metamorfose Concluída
