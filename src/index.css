@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --textura-papel: radial-gradient(#d1ccc2 1px, transparent 1px);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #F5F3F0;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #0A0A0A;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #403E3D;
+  }
+}
+
+@layer utilities {
+  /* Texturas táteis de impressão e madeira */
+  .textura-papel {
+    background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+    background-size: 16px 16px;
+  }
+
+  .textura-madeira {
+    background-color: #D8C6A5;
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 12px,
+      rgba(132, 105, 63, 0.1) 12px,
+      rgba(132, 105, 63, 0.1) 24px
+    );
+  }
+
+  .textura-madeira-escura {
+    background-color: #C4AE88;
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 8px,
+      rgba(0, 0, 0, 0.06) 8px,
+      rgba(0, 0, 0, 0.06) 16px
+    );
+  }
+
+  .tinta-multiply {
+    mix-blend-mode: multiply;
+  }
+
+  .borda-tinta {
+    border: 2px solid #0A0A0A;
+  }
+
+  .borda-fina {
+    border: 1px solid #0A0A0A;
+  }
+
+  .borda-tracejada {
+    border: 1px dashed #666260;
+  }
+
+  /* Estilos de Tipografia Monumental */
+  .texto-monumental {
+    font-size: clamp(3.5rem, 14vw, 15rem);
+    line-height: 0.82;
+    letter-spacing: -0.04em;
+  }
+
+  .texto-grande {
+    font-size: clamp(2rem, 7vw, 7rem);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+  }
+
+  /* Efeito de tipo móvel em baixo relevo */
+  .tipo-movel-baixo-relevo {
+    box-shadow: inset 2px 2px 4px rgba(0,0,0,0.3), inset -2px -2px 4px rgba(255,255,255,0.2);
+  }
+}
+
+/* Animações e transições táteis */
+.cursor-hover-alvo {
+  cursor: none;
+}
