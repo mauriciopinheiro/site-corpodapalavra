@@ -1,5 +1,6 @@
 import React from 'react';
-import { ArrowUp } from 'lucide-react';
+import { ArrowUp, Mail, UserCheck } from 'lucide-react';
+import { AUTORIA_PROJETO_VIRTUAL } from '../../dados/dadosCreditos';
 
 export const Rodape: React.FC = () => {
   const voltarAoTopo = () => {
@@ -7,52 +8,46 @@ export const Rodape: React.FC = () => {
   };
 
   return (
-    <footer className="w-full bg-papel-escuro border-t-2 border-tinta pt-12 pb-8 px-4 md:px-8">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-        {/* Título & Declaração de Matéria */}
-        <div className="md:col-span-6 flex flex-col gap-4">
-          <div className="flex items-baseline gap-1">
-            <span className="font-serifa italic text-2xl lowercase">corpo</span>
-            <span className="font-mono text-xs font-bold uppercase text-tinta-cinza">DA</span>
-            <span className="font-anton text-4xl uppercase tracking-tighter">palavra</span>
+    <footer className="bg-tinta text-papel py-12 px-4 md:px-8 border-t-4 border-tinta selection:bg-papel selection:text-tinta">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-end gap-8 border-b border-papel/20 pb-8">
+        <div className="space-y-2">
+          <div className="flex items-baseline gap-2">
+            <span className="font-serifa italic text-3xl sm:text-4xl text-papel">corpo</span>
+            <span className="font-mono text-sm font-bold text-acento-vermelho">DA</span>
+            <span className="font-anton text-4xl sm:text-5xl text-papel uppercase tracking-tight">palavra</span>
           </div>
-          <p className="font-serifa italic text-tinta-desbotada text-base max-w-md">
-            “A palavra ganha corpo quando a matéria do mundo acolhe o traço humano.”
+          <p className="font-serifa italic text-sm text-papel/80 max-w-md">
+            Exposição de Artes Gráficas e Tipografia • Espaço de Tecnologias e Artes do Sesc Santo André.
           </p>
-          <div className="font-mono text-xs uppercase text-tinta-cinza space-y-1">
-            <p>Espaço de Tecnologias e Artes — ETA</p>
-            <p>Sesc Santo André — São Paulo, Brasil</p>
-          </div>
         </div>
 
-        {/* Links Rápidos */}
-        <div className="md:col-span-4 flex flex-col gap-2 font-mono text-xs uppercase">
-          <span className="font-bold border-b border-tinta/30 pb-1 mb-1 text-tinta">Índice Geral</span>
-          <a href="#sobre" className="hover:text-acento-vermelho transition-colors">Sobre a Exposição</a>
-          <a href="#manifesto" className="hover:text-acento-vermelho transition-colors">Manifesto oSERgráfica</a>
-          <a href="#dois-seres" className="hover:text-acento-vermelho transition-colors">oSERlivro & oSERtipografia</a>
-          <a href="#parede" className="hover:text-acento-vermelho transition-colors">Parede Modular de 36 Blocos</a>
-          <a href="#galeria" className="hover:text-acento-vermelho transition-colors">Galeria Documental</a>
-          <a href="#creditos" className="hover:text-acento-vermelho transition-colors">Ficha Técnica & Créditos</a>
-        </div>
-
-        {/* Voltar ao topo */}
-        <div className="md:col-span-2 flex md:justify-end">
-          <button
-            onClick={voltarAoTopo}
-            className="flex items-center gap-2 font-mono text-xs uppercase font-bold border-2 border-tinta bg-papel-claro p-3 shadow-carimbo hover:bg-tinta hover:text-papel transition-all"
-            aria-label="Voltar ao início da página"
+        {/* Autoria do Projeto Virtual no Rodapé */}
+        <div className="bg-tinta-suave border border-papel/30 p-4 space-y-1 font-mono text-xs max-w-md">
+          <span className="text-acento-amarelo font-bold uppercase flex items-center gap-1.5">
+            <UserCheck className="w-3.5 h-3.5" /> Concepção & Implementação Virtual
+          </span>
+          <p className="font-bold text-papel text-sm">{AUTORIA_PROJETO_VIRTUAL.autor}</p>
+          <p className="text-papel/70 text-[11px]">{AUTORIA_PROJETO_VIRTUAL.cargo}</p>
+          <a
+            href={`mailto:${AUTORIA_PROJETO_VIRTUAL.email}`}
+            className="inline-flex items-center gap-1 text-acento-amarelo hover:underline pt-1 text-[11px]"
           >
-            <span>Topo</span>
-            <ArrowUp className="w-4 h-4" />
-          </button>
+            <Mail className="w-3 h-3" /> {AUTORIA_PROJETO_VIRTUAL.email}
+          </a>
         </div>
+
+        <button
+          onClick={voltarAoTopo}
+          className="self-start md:self-end inline-flex items-center gap-2 font-mono text-xs uppercase font-bold text-papel hover:text-acento-amarelo border border-papel/40 px-3 py-2 hover:border-papel transition-colors"
+        >
+          <span>Retornar ao Topo</span>
+          <ArrowUp className="w-4 h-4" />
+        </button>
       </div>
 
-      {/* Linha final */}
-      <div className="max-w-7xl mx-auto mt-12 pt-4 border-t border-tinta/20 flex flex-col sm:flex-row justify-between items-center gap-2 font-mono text-[11px] text-tinta-cinza uppercase">
-        <span>Gráfica Experimental × Estúdio Agudo × GamaH × Sesc Santo André</span>
-        <span>© Todos os direitos reservados aos autores e curadores</span>
+      <div className="max-w-7xl mx-auto pt-6 flex flex-col sm:flex-row justify-between items-center gap-4 font-mono text-[11px] text-papel/60">
+        <span>© 2024–2026 Sesc São Paulo • Espaço de Tecnologias e Artes</span>
+        <span>Tipografia como corpo, matéria, gesto, ritmo e espaço</span>
       </div>
     </footer>
   );

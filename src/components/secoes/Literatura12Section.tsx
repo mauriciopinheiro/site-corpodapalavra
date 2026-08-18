@@ -3,7 +3,7 @@ import { DADOS_LITERATURA_12, ExcertoReal12 } from '../../dados/dadosLiteratura1
 import { DADOS_COMPORTAMENTOS_LITERATURA } from '../../dados/dadosComportamentosLiteratura';
 import { useExposicao } from '../../contexto/ContextoExposicao';
 import { EtiquetaAtelier } from '../ui/EtiquetaAtelier';
-import { Quote, Sparkles, Activity } from 'lucide-react';
+import { Quote, Sparkles, Activity, Layers } from 'lucide-react';
 
 export const Literatura12Section: React.FC = () => {
   const [excertoAtivoId, setExcertoAtivoId] = useState<number>(1);
@@ -25,12 +25,12 @@ export const Literatura12Section: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 pb-6 border-b-2 border-tinta">
           <div>
-            <EtiquetaAtelier texto="12 Excertos Reais • Comportamentos Vivos" variante="escuro" />
+            <EtiquetaAtelier texto="12 Excertos Reais • Tipografias Brasileiras" variante="escuro" />
             <h2 className="font-anton uppercase text-4xl sm:text-5xl md:text-6xl text-tinta mt-3 tracking-tight">
               A LITERATURA TRANSFORMADA EM MATRIZ
             </h2>
             <p className="font-serifa italic text-tinta-desbotada text-base sm:text-lg mt-2 max-w-2xl">
-              Cada autor transforma a física e o comportamento da mancha gráfica: a interface reage e assume a matéria do pensamento.
+              12 pensadores e escritores brasileiros pareados com 12 famílias tipográficas de designers nacionais, como nos painéis originais da exposição.
             </p>
           </div>
 
@@ -73,8 +73,11 @@ export const Literatura12Section: React.FC = () => {
                 {excertoAtual.autor} — <span className="font-serifa italic not-italic font-normal">{excertoAtual.obra} ({excertoAtual.ano})</span>
               </h3>
             </div>
-            <div className="font-mono text-xs bg-madeira px-3 py-1.5 border border-tinta font-bold text-tinta self-start sm:self-auto">
-              Fonte: {excertoAtual.fonteTipografica}
+            <div className="flex flex-col sm:items-end font-mono text-xs bg-madeira p-2 border border-tinta text-tinta">
+              <span className="font-bold">Fonte: {excertoAtual.fonteTipografica}</span>
+              <span className="text-[11px] text-tinta-cinza flex items-center gap-1">
+                <Layers className="w-3 h-3" /> por {excertoAtual.designerFonte}
+              </span>
             </div>
           </div>
 
@@ -96,7 +99,7 @@ export const Literatura12Section: React.FC = () => {
               <span><strong>Tese Curatorial:</strong> {excertoAtual.conceitoCuratorial}</span>
             </div>
             <div className="md:col-span-4 flex justify-end font-mono text-[11px] uppercase text-tinta-cinza">
-              <span>Espaço de Tecnologias e Artes • Sesc</span>
+              <span>Espaço de Tecnologias e Artes • Sesc Santo André</span>
             </div>
           </div>
         </div>

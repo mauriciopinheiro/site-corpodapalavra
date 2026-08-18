@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, Volume2, VolumeX, Eye, Sparkles, MapPin } from 'lucide-react';
+import { Menu, X, Volume2, VolumeX, Eye, Sparkles, MapPin, Stamp } from 'lucide-react';
 import { useExposicao } from '../../contexto/ContextoExposicao';
 
 export const Navbar: React.FC = () => {
@@ -11,11 +11,12 @@ export const Navbar: React.FC = () => {
     { label: 'oSERgráfica', href: '#manifesto' },
     { label: 'oSERlivro', href: '#dois-seres' },
     { label: 'materiais', href: '#materiais' },
+    { label: 'carimbos', href: '#carimbos' },
     { label: 'A–Z real', href: '#az-modular' },
     { label: '12 excertos', href: '#literatura-12' },
     { label: 'anatomia', href: '#anatomia' },
     { label: 'pranchas', href: '#galeria' },
-    { label: 'memória', href: '#epilogo' }
+    { label: 'créditos', href: '#creditos' }
   ];
 
   return (
@@ -33,20 +34,29 @@ export const Navbar: React.FC = () => {
         </a>
 
         {/* Links de navegação Desktop */}
-        <nav className="hidden xl:flex items-center gap-4 2xl:gap-6" aria-label="Navegação Principal">
+        <nav className="hidden xl:flex items-center gap-3 2xl:gap-5" aria-label="Navegação Principal">
           {linksNav.map(link => (
             <a
               key={link.href}
               href={link.href}
-              className="font-mono text-xs uppercase tracking-wider text-tinta hover:text-acento-vermelho hover:underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-tinta transition-colors"
+              className="font-mono text-[11px] 2xl:text-xs uppercase tracking-wider text-tinta hover:text-acento-vermelho hover:underline underline-offset-4 transition-colors"
             >
               {link.label}
             </a>
           ))}
         </nav>
 
-        {/* Controles de Modo LER/EXP, Som e Visite */}
+        {/* Controles de Modo LER/EXP, Som, Carimbos e Visite */}
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <a
+            href="#carimbos"
+            className="hidden lg:inline-flex items-center gap-1 px-2 py-1 border-2 border-tinta bg-papel-claro font-mono text-[11px] uppercase font-bold text-tinta hover:bg-madeira transition-all shadow-carimbo"
+            title="Abrir Atelier de Carimbos"
+          >
+            <Stamp className="w-3.5 h-3.5 text-acento-vermelho" />
+            <span>Atelier</span>
+          </a>
+
           <button
             onClick={alternarModo}
             className={`flex items-center gap-1 px-2 sm:px-2.5 py-1 border-2 border-tinta font-mono text-[10px] sm:text-xs uppercase font-bold transition-all ${

@@ -10,6 +10,7 @@ import { DoisSeresSection } from './components/secoes/DoisSeresSection';
 import { TransicaoLivroTipografia } from './components/secoes/TransicaoLivroTipografia';
 import { AnatomiaLetraDissecada } from './components/secoes/AnatomiaLetraDissecada';
 import { ArqueologiaMateriaisInterativa } from './components/secoes/ArqueologiaMateriaisInterativa';
+import { AtelierCarimbos } from './components/secoes/AtelierCarimbos';
 import { AZPainelModular } from './components/secoes/AZPainelModular';
 import { ParedeTipografica } from './components/secoes/ParedeTipografica';
 import { Literatura12Section } from './components/secoes/Literatura12Section';
@@ -53,31 +54,34 @@ export const App: React.FC = () => {
           {/* 7. Arqueologia dos Materiais com os 6 Laboratórios Físicos */}
           <ArqueologiaMateriaisInterativa />
 
-          {/* 8. O A–Z Real com Modo Monumental Fullscreen */}
+          {/* 8. Atelier de Carimbos Modulares & Impressão Direta */}
+          <AtelierCarimbos />
+
+          {/* 9. O A–Z Real com Modo Monumental Fullscreen */}
           <AZPainelModular />
 
-          {/* 9. Parede Tipográfica Interativa (36 módulos de madeira) */}
+          {/* 10. Parede Tipográfica Interativa (36 módulos de madeira) */}
           <ParedeTipografica />
 
-          {/* 10. Os 12 Excertos com Comportamentos Vivos */}
+          {/* 11. Os 12 Excertos com Comportamentos Vivos */}
           <Literatura12Section />
 
-          {/* 11. A Palavra como Imagem */}
+          {/* 12. A Palavra como Imagem */}
           <PalavraComoImagem />
 
-          {/* 12. Pranchas e Diagramas Técnicos Expográficos */}
+          {/* 13. Pranchas e Diagramas Técnicos Expográficos */}
           <GaleriaEspaco />
 
-          {/* 13. Glossário do Corpo da Letra */}
+          {/* 14. Glossário do Corpo da Letra */}
           <GlossarioVivo />
 
-          {/* 14. Epílogo com Prova de Prelo 100% Gerativa */}
+          {/* 15. Epílogo com Prova de Prelo 100% Gerativa */}
           <EpilogoMemoriaPercurso />
 
-          {/* 15. Informações de Visita ao Sesc Santo André */}
+          {/* 16. Informações de Visita ao Sesc Santo André */}
           <InformacoesVisita />
 
-          {/* 16. Ficha Técnica e Créditos Oficiais */}
+          {/* 17. Ficha Técnica e Autoria de Maurício Pinheiro */}
           <CreditosSection />
         </main>
 

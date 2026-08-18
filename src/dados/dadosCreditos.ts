@@ -1,20 +1,31 @@
 import { CreditoItem } from '../tipos';
 
 /**
- * Ficha técnica oficial da exposição corpoDApalavra.
+ * Autoria Oficial da Concepção e Implementação do Projeto Virtual.
+ */
+export const AUTORIA_PROJETO_VIRTUAL = {
+  funcao: 'Concepção e Implementação do Projeto Virtual',
+  autor: 'Maurício Pinheiro',
+  cargo: 'Educador de Tecnologias e Artes do Sesc Piracicaba',
+  email: 'mauricio.pinheiro@sescsp.org.br',
+  descricao: 'Transposição digital, interativa, tipográfica e generativa da exposição corpoDApalavra.'
+};
+
+/**
+ * Ficha técnica oficial da exposição física corpoDApalavra.
  * Realizada no Espaço de Tecnologias e Artes do Sesc Santo André.
  */
 export const DADOS_CREDITOS: CreditoItem[] = [
   {
-    funcao: 'Concepção e Curadoria',
+    funcao: 'Concepção e Curadoria da Exposição Física',
     nomes: ['Gráfica Experimental', 'André Bonani', 'Roger Beatjesus']
   },
   {
-    funcao: 'Painel oSERtipografia',
+    funcao: 'Painel oSERtipografia & Letras A–Z',
     nomes: ['Estúdio Agudo', 'Débora Gomes', 'Fabrício Gonçalves']
   },
   {
-    funcao: 'Expografia e Arquitetura',
+    funcao: 'Expografia e Arquitetura do Espaço',
     nomes: ['GamaH']
   },
   {
@@ -26,12 +37,12 @@ export const DADOS_CREDITOS: CreditoItem[] = [
     nomes: ['André Bonani']
   },
   {
-    funcao: 'Ilustrações e Matrizes',
+    funcao: 'Ilustrações e Matrizes Gráficas',
     nomes: ['Roger Beatjesus', 'Estúdio Agudo']
   },
   {
     funcao: 'Realização Institucional',
-    nomes: ['Espaço de Tecnologias e Artes', 'Sesc Santo André']
+    nomes: ['Espaço de Tecnologias e Artes (ETA)', 'Sesc Santo André']
   }
 ];
 
