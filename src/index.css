@@ -30,7 +30,6 @@
 }
 
 @layer utilities {
-  /* Texturas táteis de impressão e madeira */
   .textura-papel {
     background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
     background-size: 16px 16px;
@@ -74,7 +73,6 @@
     border: 1px dashed #666260;
   }
 
-  /* Estilos de Tipografia Monumental */
   .texto-monumental {
     font-size: clamp(3.5rem, 14vw, 15rem);
     line-height: 0.82;
@@ -87,13 +85,22 @@
     letter-spacing: -0.03em;
   }
 
-  /* Efeito de tipo móvel em baixo relevo */
   .tipo-movel-baixo-relevo {
     box-shadow: inset 2px 2px 4px rgba(0,0,0,0.3), inset -2px -2px 4px rgba(255,255,255,0.2);
   }
 }
 
-/* Animações e transições táteis */
-.cursor-hover-alvo {
-  cursor: none;
+/* Suporte Completo a prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

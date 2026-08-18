@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { X, Sparkles, Quote, BookOpen } from 'lucide-react';
 import { ModuloMadeiraData } from '../../tipos';
 
@@ -8,28 +8,42 @@ interface ModalModuloDetalheProps {
 }
 
 export const ModalModuloDetalhe: React.FC<ModalModuloDetalheProps> = ({ modulo, onFechar }) => {
+  const botaoFecharRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onFechar();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    botaoFecharRef.current?.focus();
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onFechar]);
+
   if (!modulo) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-tinta/80 backdrop-blur-sm animate-fadeIn">
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="titulo-detalhe-modulo"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-tinta/80 backdrop-blur-sm animate-fadeIn"
+    >
       <div className="relative w-full max-w-xl bg-papel border-2 border-tinta shadow-carimbo-lg p-6 sm:p-8">
-        {/* Botão Fechar */}
         <button
+          ref={botaoFecharRef}
           onClick={onFechar}
-          className="absolute top-4 right-4 p-2 bg-papel-claro border-2 border-tinta hover:bg-tinta hover:text-papel-claro transition-colors shadow-carimbo"
-          aria-label="Fechar detalhe do módulo"
+          className="absolute top-4 right-4 p-2 bg-papel-claro border-2 border-tinta hover:bg-tinta hover:text-papel-claro transition-colors shadow-carimbo focus:ring-2 focus:ring-tinta"
+          aria-label="Fechar detalhe do módulo [ESC]"
         >
           <X className="w-5 h-5" />
         </button>
 
-        {/* Cabeçalho */}
         <div className="flex items-center gap-3 font-mono text-xs text-tinta uppercase font-bold border-b-2 border-tinta pb-3 mb-6">
           <span className="bg-tinta text-papel px-2 py-0.5">MÓDULO #{String(modulo.id).padStart(2, '0')}</span>
           <span>LINHA {modulo.linha} × COLUNA {modulo.coluna}</span>
           <span className="text-acento-vermelho ml-auto">{modulo.categoria}</span>
         </div>
 
-        {/* Caractere Gigante em Foco */}
         <div className="flex flex-col sm:flex-row items-center gap-6 mb-6">
           <div className="w-32 h-32 flex items-center justify-center bg-madeira border-2 border-tinta shadow-carimbo shrink-0 textura-madeira">
             <span className="text-7xl font-serifa font-bold text-tinta leading-none">
@@ -39,7 +53,7 @@ export const ModalModuloDetalhe: React.FC<ModalModuloDetalheProps> = ({ modulo, 
 
           <div className="space-y-1 text-center sm:text-left">
             <span className="font-mono text-xs text-tinta-cinza uppercase">Conceito Tipográfico</span>
-            <h3 className="font-anton uppercase text-4xl text-tinta tracking-tight">
+            <h3 id="titulo-detalhe-modulo" className="font-anton uppercase text-4xl text-tinta tracking-tight">
               {modulo.termo}
             </h3>
             {modulo.autorOuFonte && (
@@ -51,7 +65,6 @@ export const ModalModuloDetalhe: React.FC<ModalModuloDetalheProps> = ({ modulo, 
           </div>
         </div>
 
-        {/* Descrição e Detalhe Anatômico */}
         <div className="space-y-4 border-t-2 border-tinta/20 pt-4 mb-6">
           <div>
             <span className="font-mono text-[11px] uppercase font-bold text-tinta-cinza block mb-1">
@@ -85,14 +98,13 @@ export const ModalModuloDetalhe: React.FC<ModalModuloDetalheProps> = ({ modulo, 
           )}
         </div>
 
-        {/* Rodapé do Modal */}
         <div className="flex items-center justify-between border-t-2 border-tinta pt-4 font-mono text-xs text-tinta-cinza uppercase">
           <span className="flex items-center gap-1">
             <BookOpen className="w-3.5 h-3.5" /> oSERtipografia — Sesc Santo André
           </span>
           <button
             onClick={onFechar}
-            className="font-bold underline hover:text-tinta text-tinta"
+            className="font-bold underline hover:text-tinta text-tinta focus:ring-1 focus:ring-tinta"
           >
             Fechar janela [ESC]
           </button>

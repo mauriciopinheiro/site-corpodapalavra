@@ -1,5 +1,6 @@
 import React from 'react';
-import { ProvedorExposicao } from './contexto/ContextoExposicao';
+import { ProvedorExposicao, useExposicao } from './contexto/ContextoExposicao';
+import { PrologoRadical } from './components/secoes/PrologoRadical';
 import { BarraProgresso } from './components/layout/BarraProgresso';
 import { CursorCustomizado } from './components/layout/CursorCustomizado';
 import { Navbar } from './components/layout/Navbar';
@@ -23,9 +24,15 @@ import { InformacoesVisita } from './components/secoes/InformacoesVisita';
 import { CreditosSection } from './components/secoes/CreditosSection';
 import { Rodape } from './components/layout/Rodape';
 
-export const App: React.FC = () => {
+const ConteudoExposicao: React.FC = () => {
+  const { prologoConcluido } = useExposicao();
+
   return (
-    <ProvedorExposicao>
+    <>
+      {/* 1. Prólogo Radical no Vazio Inicial: O visitante experimenta o gesto antes de tudo */}
+      {!prologoConcluido && <PrologoRadical />}
+
+      {/* 2. Experiência Completa da Exposição */}
       <div className="min-h-screen bg-papel text-tinta flex flex-col selection:bg-tinta selection:text-papel-claro">
         <BarraProgresso />
         <CursorCustomizado />
@@ -89,6 +96,14 @@ export const App: React.FC = () => {
 
         <Rodape />
       </div>
+    </>
+  );
+};
+
+export const App: React.FC = () => {
+  return (
+    <ProvedorExposicao>
+      <ConteudoExposicao />
     </ProvedorExposicao>
   );
 };

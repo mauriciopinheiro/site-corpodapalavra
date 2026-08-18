@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { GrupoAZReal } from '../../dados/dadosAZReal';
 import { GlifoSVG } from './GlifosSVG';
 import { Sparkles, Quote, Minimize2 } from 'lucide-react';
@@ -9,18 +9,26 @@ interface AZMonumentalModalProps {
 }
 
 export const AZMonumentalModal: React.FC<AZMonumentalModalProps> = ({ grupo, onFechar }) => {
+  const botaoFecharRef = useRef<HTMLButtonElement | null>(null);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onFechar();
     };
     window.addEventListener('keydown', handleKeyDown);
+    botaoFecharRef.current?.focus();
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onFechar]);
 
   if (!grupo) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-tinta/95 backdrop-blur-md flex flex-col justify-between p-6 sm:p-12 animate-fadeIn text-papel-claro select-none overflow-y-auto">
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="titulo-modulo-monumental"
+      className="fixed inset-0 z-50 bg-tinta/95 backdrop-blur-md flex flex-col justify-between p-6 sm:p-12 animate-fadeIn text-papel-claro select-none overflow-y-auto"
+    >
       {/* Topo do Modo Monumental */}
       <div className="w-full flex items-center justify-between border-b-2 border-papel/30 pb-4">
         <div className="flex items-center gap-3">
@@ -33,9 +41,10 @@ export const AZMonumentalModal: React.FC<AZMonumentalModalProps> = ({ grupo, onF
         </div>
 
         <button
+          ref={botaoFecharRef}
           onClick={onFechar}
-          className="flex items-center gap-2 bg-papel-claro text-tinta px-4 py-2 border-2 border-papel font-mono text-xs uppercase font-bold hover:bg-acento-vermelho hover:text-white transition-all shadow-carimbo-branco"
-          aria-label="Fechar visualização monumental"
+          className="flex items-center gap-2 bg-papel-claro text-tinta px-4 py-2 border-2 border-papel font-mono text-xs uppercase font-bold hover:bg-acento-vermelho hover:text-white transition-all shadow-carimbo-branco focus:ring-2 focus:ring-white"
+          aria-label="Fechar visualização monumental [ESC]"
         >
           <Minimize2 className="w-4 h-4" />
           <span className="hidden sm:inline">Retornar à Parede [ESC]</span>
@@ -56,7 +65,7 @@ export const AZMonumentalModal: React.FC<AZMonumentalModalProps> = ({ grupo, onF
         <div className="lg:col-span-5 space-y-6">
           <div>
             <span className="font-mono text-xs uppercase text-papel/60 block">Fonte & Autoria:</span>
-            <h2 className="font-anton uppercase text-4xl sm:text-5xl md:text-6xl tracking-tight text-papel-claro mt-1">
+            <h2 id="titulo-modulo-monumental" className="font-anton uppercase text-4xl sm:text-5xl md:text-6xl tracking-tight text-papel-claro mt-1">
               {grupo.fonte}
             </h2>
             <p className="font-mono text-xs text-acento-amarelo mt-1 flex items-center gap-1.5">
