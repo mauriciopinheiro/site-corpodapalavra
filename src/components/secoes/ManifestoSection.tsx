@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { EtiquetaAtelier } from '../ui/EtiquetaAtelier';
-import { Sparkles, Hammer } from 'lucide-react';
+import { BookOpen, Stamp } from 'lucide-react';
 
 export const ManifestoSection: React.FC = () => {
   const sequenciaEvolutiva = [
@@ -15,11 +15,11 @@ export const ManifestoSection: React.FC = () => {
 
   return (
     <section id="manifesto" className="relative py-16 md:py-24 px-4 md:px-8 border-b-2 border-tinta bg-papel">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto space-y-12">
         {/* Cabeçalho do Manifesto */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-5">
-            <EtiquetaAtelier texto="Manifesto Curatorial" variante="escuro" />
+            <EtiquetaAtelier texto="Manifesto do Núcleo oSERgráfica" variante="escuro" />
             <h2 className="font-serifa italic text-4xl sm:text-5xl md:text-6xl text-tinta mt-4 leading-tight">
               Mas o que é <br />
               <strong className="font-anton not-italic uppercase text-5xl sm:text-6xl md:text-7xl tracking-tighter block text-tinta">
@@ -27,26 +27,30 @@ export const ManifestoSection: React.FC = () => {
               </strong>
             </h2>
             <div className="w-16 h-1 bg-acento-vermelho mt-6 mb-6" />
-            <p className="font-corpo text-base md:text-lg text-tinta-desbotada leading-relaxed">
-              A matéria da palavra impressa, gravada, talhada ou escrita à mão. O fazer gráfico como ponte que converte a mente em substância física tangível.
+            <p className="font-corpo text-base text-tinta leading-relaxed">
+              Texto curatorial oficial do painel <strong>oSERgráfica</strong>, redigido por André Bonani (Gráfica Experimental) para a exposição no Sesc Santo André.
             </p>
           </div>
 
-          <div className="lg:col-span-7 bg-papel-claro p-6 sm:p-8 md:p-10 border-2 border-tinta shadow-carimbo-lg relative">
+          {/* Texto Literal do Painel oSERgráfica */}
+          <div className="lg:col-span-7 bg-papel-claro p-6 sm:p-8 md:p-10 border-2 border-tinta shadow-carimbo-lg relative space-y-4">
             <div className="absolute top-0 right-0 bg-tinta text-papel px-3 py-1 font-mono text-[10px] uppercase font-bold tracking-widest">
-              PRINCIPIUM
+              PAINEL ORIGINAL
             </div>
-            <p className="font-serifa text-2xl sm:text-3xl md:text-4xl text-tinta leading-snug mb-6">
-              “A criatura humana encontra na mão um canal expressivo. O pensamento torna-se gesto. O gesto deixa marcas. A palavra ganha peso, textura, ritmo e espaço.”
+            <p className="font-serifa italic text-xl sm:text-2xl md:text-3xl text-tinta leading-snug">
+              “A criatura humana, inquieta no mundo, encontra na mão um canal expressivo. A ela concede o gesto de imprimir forma aos pensamentos; contrapeso à oralidade que sussurra como o vento. Daí germina este Ser: oSERgráfica.”
             </p>
-            <div className="flex items-center justify-between border-t border-tinta/20 pt-4 font-mono text-xs text-tinta-cinza uppercase">
-              <span>André Bonani — Curadoria</span>
-              <span>Gráfica Experimental</span>
+            <p className="font-corpo text-xs sm:text-sm text-tinta leading-relaxed border-t border-tinta/20 pt-4">
+              Estruturas acopláveis contêm carimbos com as ilustrações, que podem ser aplicadas pelo espectador no papel, gerando um poema visual em que cada signo corresponde a um conceito expresso num glossário. Por fim, os carrinhos oferecem, para consulta, 9 livros contemporâneos com projetos gráficos experimentais, todos editados no Brasil pela Lote 42.
+            </p>
+            <div className="flex items-center justify-between font-mono text-xs text-tinta-cinza uppercase pt-2">
+              <span>André Bonani • Curadoria</span>
+              <span>Gráfica Experimental / Sesc</span>
             </div>
           </div>
         </div>
 
-        {/* Sequência Progressiva */}
+        {/* Sequência Morfogenética do Tipo */}
         <div className="border-2 border-tinta bg-papel-claro p-6 md:p-10 shadow-carimbo">
           <div className="flex items-center justify-between border-b-2 border-tinta pb-4 mb-8 font-mono text-xs uppercase font-bold text-tinta">
             <span>Sequência Morfogenética do Tipo</span>
@@ -84,35 +88,31 @@ export const ManifestoSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Bloco de Gravura e Matriz (100% Gráfico, sem fotos) */}
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
-          <div className="md:col-span-7 border-2 border-tinta shadow-carimbo bg-tinta text-papel p-8 flex flex-col justify-between">
-            <div className="flex items-center justify-between border-b border-papel/20 pb-3 mb-6 font-mono text-xs uppercase text-acento-amarelo">
-              <span className="flex items-center gap-1.5 font-bold"><Hammer className="w-4 h-4" /> Matriz de Tipos Móveis</span>
-              <span>Oficina Tipográfica</span>
+        {/* Os Dispositivos Físicos da Exposição: Carrinhos e Livros Lote 42 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-tinta text-papel p-6 sm:p-8 border-2 border-tinta shadow-carimbo flex flex-col justify-between">
+            <div className="flex items-center justify-between border-b border-papel/20 pb-3 mb-4 font-mono text-xs uppercase text-acento-amarelo">
+              <span className="flex items-center gap-1.5 font-bold"><Stamp className="w-4 h-4" /> Carrinhos de Carimbos</span>
+              <span>Relevo Paulista</span>
             </div>
-            <div className="my-auto py-4">
-              <div className="font-serifa italic text-4xl sm:text-5xl text-papel-claro leading-none">
-                pensamento ➔ gesto ➔ matriz ➔ corpo
-              </div>
-            </div>
-            <div className="pt-4 border-t border-papel/20 font-mono text-[10px] text-papel/60 uppercase">
-              Gravação em madeira de topo & clichês de chumbo mineral
+            <p className="font-serifa italic text-lg sm:text-xl text-papel-claro leading-relaxed my-auto">
+              “Carimbos com as ilustrações e signos do glossário para o espectador aplicar diretamente no papel e construir poemas visuais modulares.”
+            </p>
+            <div className="pt-4 border-t border-papel/20 font-mono text-[11px] text-papel/70 uppercase">
+              Ilustrações: Roger Beatjesus & Estúdio Agudo
             </div>
           </div>
 
-          <div className="md:col-span-5 bg-madeira p-6 border-2 border-tinta shadow-carimbo flex flex-col justify-between">
-            <div>
-              <span className="font-mono text-xs uppercase font-bold text-tinta block mb-2">
-                FIG. I — MATÉRIA & ATELIER
-              </span>
-              <p className="font-corpo text-sm text-tinta leading-relaxed">
-                O pensamento não permanece no éter; ele é entalhado em madeira de reflorestamento, prensado em matriz de chumbo e espalhado como mancha viva sobre a folha crua.
-              </p>
+          <div className="bg-madeira p-6 sm:p-8 border-2 border-tinta shadow-carimbo flex flex-col justify-between">
+            <div className="flex items-center justify-between border-b border-tinta pb-3 mb-4 font-mono text-xs uppercase text-tinta">
+              <span className="flex items-center gap-1.5 font-bold"><BookOpen className="w-4 h-4 text-acento-vermelho" /> 9 Livros Experimentais</span>
+              <span>Editora Lote 42</span>
             </div>
-            <div className="pt-4 border-t border-tinta font-mono text-[11px] uppercase text-tinta flex items-center gap-1">
-              <Sparkles className="w-3.5 h-3.5 text-acento-vermelho" />
-              <span>Espaço de Tecnologias e Artes • Sesc</span>
+            <p className="font-corpo text-sm text-tinta leading-relaxed my-auto">
+              Livros contemporâneos disponíveis nos carrinhos para manuseio, evidenciando projetos gráficos onde a encadernação, a dobra, o papel e a mancha tipográfica são protagonistas da narrativa.
+            </p>
+            <div className="pt-4 border-t border-tinta font-mono text-[11px] text-tinta-cinza uppercase">
+              Acervo de Consulta • Espaço de Tecnologias e Artes
             </div>
           </div>
         </div>

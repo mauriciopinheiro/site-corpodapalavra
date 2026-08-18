@@ -69,7 +69,7 @@ export const BandejaMatrizes: React.FC<PropsBandeja> = ({
                     ? 'border-tinta bg-madeira shadow-carimbo font-bold'
                     : 'border-tinta/20 bg-papel-claro hover:border-tinta'
                 }`}
-                title={matriz.descricao}
+                title={matriz.conceito}
               >
                 <svg width="40" height="40" viewBox={`0 0 ${matriz.largura} ${matriz.altura}`} className="my-auto">
                   <path d={matriz.svgPath} fill={corSelecionada} stroke={corSelecionada} strokeWidth="2" />

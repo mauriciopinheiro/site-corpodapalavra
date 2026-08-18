@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowRight, BookOpen, Layers } from 'lucide-react';
 import { EtiquetaAtelier } from '../ui/EtiquetaAtelier';
 import { DobraLivroInterativa } from './DobraLivroInterativa';
+import { TextosCuradoriaisLivro } from './TextosCuradoriaisLivro';
 
 export const DoisSeresSection: React.FC = () => {
   return (
@@ -20,7 +21,10 @@ export const DoisSeresSection: React.FC = () => {
         {/* 1. Experiência da Dobra e Virada do Livro */}
         <DobraLivroInterativa />
 
-        {/* 2. Grid Comparativo oSERlivro & oSERtipografia (100% Gráfico/Vetorial) */}
+        {/* 2. Textos Integrais dos 5 Painéis Murais de oSERlivro */}
+        <TextosCuradoriaisLivro />
+
+        {/* 3. Grid Comparativo oSERlivro & oSERtipografia */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
           {/* oSERlivro */}
           <div className="border-2 border-tinta bg-papel-claro p-6 sm:p-8 flex flex-col justify-between shadow-carimbo-lg relative">
@@ -41,7 +45,6 @@ export const DoisSeresSection: React.FC = () => {
                 O livro como objeto, tecnologia ancestral e território gráfico. Maquetes, ferramentas e processos que revelam a anatomia da página e a encadernação artesanal.
               </p>
 
-              {/* Bloco Vetorial da Arquitetura do Livro */}
               <div className="border-2 border-tinta bg-madeira/30 p-6 mb-6 font-mono text-xs text-tinta space-y-2">
                 <div className="flex justify-between border-b border-tinta/20 pb-1 font-bold">
                   <span>DISPOSITIVO GRÁFICO</span>
@@ -83,7 +86,6 @@ export const DoisSeresSection: React.FC = () => {
                 A letra liberta-se da leitura e passa a atuar como forma escultórica, massa preta e silêncio. Um painel de 36 módulos de madeira em 3 linhas concebido pelo Estúdio Agudo e Gráfica Experimental.
               </p>
 
-              {/* Bloco Vetorial da Grade Modular */}
               <div className="border-2 border-papel/40 bg-tinta-suave p-6 mb-6 font-mono text-xs text-papel space-y-2">
                 <div className="flex justify-between border-b border-papel/20 pb-1 font-bold text-acento-amarelo">
                   <span>SISTEMA MODULAR</span>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUp, Mail, UserCheck } from 'lucide-react';
+import { ArrowUp, Mail } from 'lucide-react';
 import { AUTORIA_PROJETO_VIRTUAL } from '../../dados/dadosCreditos';
 
 export const Rodape: React.FC = () => {
@@ -22,15 +22,12 @@ export const Rodape: React.FC = () => {
         </div>
 
         {/* Autoria do Projeto Virtual no Rodapé */}
-        <div className="bg-tinta-suave border border-papel/30 p-4 space-y-1 font-mono text-xs max-w-md">
-          <span className="text-acento-amarelo font-bold uppercase flex items-center gap-1.5">
-            <UserCheck className="w-3.5 h-3.5" /> Concepção & Implementação Virtual
-          </span>
-          <p className="font-bold text-papel text-sm">{AUTORIA_PROJETO_VIRTUAL.autor}</p>
-          <p className="text-papel/70 text-[11px]">{AUTORIA_PROJETO_VIRTUAL.cargo}</p>
+        <div className="border border-papel/20 p-3 font-mono text-xs max-w-md space-y-1">
+          <p className="text-papel font-bold">{AUTORIA_PROJETO_VIRTUAL.funcao}: {AUTORIA_PROJETO_VIRTUAL.autor}</p>
+          <p className="text-papel/60 text-[11px]">{AUTORIA_PROJETO_VIRTUAL.cargo}</p>
           <a
             href={`mailto:${AUTORIA_PROJETO_VIRTUAL.email}`}
-            className="inline-flex items-center gap-1 text-acento-amarelo hover:underline pt-1 text-[11px]"
+            className="inline-flex items-center gap-1 text-papel/80 hover:text-white underline pt-0.5 text-[11px]"
           >
             <Mail className="w-3 h-3" /> {AUTORIA_PROJETO_VIRTUAL.email}
           </a>
