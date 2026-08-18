@@ -35,28 +35,28 @@ export const AtelierCarimbos: React.FC = () => {
         {/* Cabeçalho Editorial */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b-2 border-tinta">
           <div>
-            <EtiquetaAtelier texto="Matrizes Manuais & Impressão Direta" variante="escuro" />
+            <EtiquetaAtelier texto="Os 12 Carimbos Reais dos Carrinhos do ETA" variante="escuro" />
             <h2 className="font-anton uppercase text-4xl sm:text-5xl md:text-6xl text-tinta mt-3 tracking-tight flex items-center gap-3">
-              ATELIER DE CARIMBOS MODULARES
+              ATELIER DE CARIMBOS DOS CARRINHOS
             </h2>
             <p className="font-serifa italic text-tinta-desbotada text-base sm:text-lg mt-2 max-w-3xl">
-              Na exposição, o carimbo é a matriz imediata do corpo da letra. Ao decompor o alfabeto em hastes, arcos, gotas e serifas, o impressor constrói novas linguagens visuais através da sobreposição de tintas e ritmos de pressão.
+              Na exposição física, estruturas móveis acopláveis continham carimbos em linóleo gravados pela Relevo Paulista com os signos e ferramentas do ateliê. Selecione qualquer um dos 12 carimbos para gerar sua composição direta no papel.
             </p>
           </div>
 
           <div className="bg-madeira p-4 border-2 border-tinta shadow-carimbo shrink-0 font-mono text-xs text-tinta space-y-1">
             <span className="font-bold uppercase flex items-center gap-1">
-              <Stamp className="w-3.5 h-3.5 text-acento-vermelho" /> Processo de Impressão Direta
+              <Stamp className="w-3.5 h-3.5 text-acento-vermelho" /> Carrinhos Móveis do ETA
             </span>
             <p className="text-[11px] text-tinta-cinza">
-              Selecione a matriz anatômica, molhe na almofada de pigmento e componha sua gravura no papel.
+              12 signos conceituais • 5 pigmentos minerais • Exportação de gravura SVG
             </p>
           </div>
         </div>
 
         {/* Layout do Laboratório de Carimbagem */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Coluna da Esquerda: Bandeja de Matrizes e Tinta */}
+          {/* Coluna da Esquerda: Bandeja dos 12 Carimbos */}
           <div className="lg:col-span-5 flex flex-col gap-4">
             <BandejaMatrizes
               matrizSelecionada={matrizSelecionada}
@@ -73,10 +73,10 @@ export const AtelierCarimbos: React.FC = () => {
 
             <div className="bg-papel-claro p-4 border-2 border-tinta shadow-carimbo font-mono text-xs text-tinta space-y-1.5">
               <span className="font-bold uppercase flex items-center gap-1 text-acento-vermelho">
-                <Sparkles className="w-3.5 h-3.5" /> Poética do Carimbo
+                <Sparkles className="w-3.5 h-3.5" /> Poética do Carimbo no ETA
               </span>
               <p className="text-[11px] leading-relaxed">
-                Cada carimbada é única: a quantidade de tinta, o ângulo da mão e o atrito da borracha com a fibra do papel produzem texturas vivas impossíveis na precisão fria do vetor digital.
+                A aplicação direta do carimbo pelo visitante no papel cria um poema visual em que cada signo materializa um conceito do glossário expográfico.
               </p>
             </div>
           </div>

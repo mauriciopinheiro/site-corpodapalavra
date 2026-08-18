@@ -32,7 +32,7 @@ export const BandejaMatrizes: React.FC<PropsBandeja> = ({
       {/* 1. Almofadas de Tinta Pigmentar */}
       <div>
         <span className="font-mono text-xs uppercase font-bold text-tinta-cinza block mb-2">
-          1. Almofada de Tinta (Pigmento):
+          1. Almofada de Tinta (Pigmento Mineral):
         </span>
         <div className="flex flex-wrap gap-2">
           {ALMOFADAS_TINTA.map(almofada => (
@@ -52,26 +52,27 @@ export const BandejaMatrizes: React.FC<PropsBandeja> = ({
         </div>
       </div>
 
-      {/* 2. Seleção de Matrizes de Carimbo */}
+      {/* 2. Os 12 Carimbos dos Carrinhos do ETA */}
       <div>
         <span className="font-mono text-xs uppercase font-bold text-tinta-cinza block mb-2">
-          2. Matriz Gravada do Atelier:
+          2. Os 12 Carimbos dos Carrinhos do ETA (Relevo Paulista):
         </span>
-        <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+        <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-2">
           {MATRIZES_CARIMBO.map(matriz => {
             const ativa = matrizSelecionada.id === matriz.id;
             return (
               <button
                 key={matriz.id}
                 onClick={() => onSelecionarMatriz(matriz)}
-                className={`p-2 border-2 flex flex-col items-center justify-between min-h-[85px] transition-all ${
+                className={`p-2 border-2 flex flex-col items-center justify-between min-h-[85px] transition-all relative ${
                   ativa
-                    ? 'border-tinta bg-madeira shadow-carimbo font-bold'
+                    ? 'border-tinta bg-madeira shadow-carimbo font-bold scale-105'
                     : 'border-tinta/20 bg-papel-claro hover:border-tinta'
                 }`}
                 title={matriz.conceito}
               >
-                <svg width="40" height="40" viewBox={`0 0 ${matriz.largura} ${matriz.altura}`} className="my-auto">
+                <span className="absolute top-1 right-1 font-mono text-[10px] opacity-70">{matriz.simbolo}</span>
+                <svg width="34" height="34" viewBox={`0 0 ${matriz.largura} ${matriz.altura}`} className="my-auto">
                   <path d={matriz.svgPath} fill={corSelecionada} stroke={corSelecionada} strokeWidth="2" />
                 </svg>
                 <span className="font-mono text-[9px] uppercase text-tinta text-center leading-tight line-clamp-1">
@@ -83,7 +84,7 @@ export const BandejaMatrizes: React.FC<PropsBandeja> = ({
         </div>
       </div>
 
-      {/* 3. Controles Físicos do Bloco (Girar, Escala, Pressão) */}
+      {/* 3. Controles Físicos do Bloco */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 border-t border-tinta/20 font-mono text-xs">
         {/* Rotação */}
         <div className="flex items-center justify-between sm:flex-col sm:items-start gap-1">
@@ -99,7 +100,7 @@ export const BandejaMatrizes: React.FC<PropsBandeja> = ({
 
         {/* Escala */}
         <div className="flex items-center justify-between sm:flex-col sm:items-start gap-1">
-          <span className="text-tinta-cinza uppercase font-bold">Escala ({Math.round(escala * 100)}%):</span>
+          <span className="text-tinta-cinza uppercase font-bold">Escala:</span>
           <div className="flex gap-1">
             {[0.7, 1.0, 1.4].map(esc => (
               <button
@@ -115,7 +116,7 @@ export const BandejaMatrizes: React.FC<PropsBandeja> = ({
           </div>
         </div>
 
-        {/* Pressão de Tinta */}
+        {/* Carga de Tinta */}
         <div className="flex items-center justify-between sm:flex-col sm:items-start gap-1">
           <span className="text-tinta-cinza uppercase font-bold">Carga de Tinta:</span>
           <div className="flex gap-1">
