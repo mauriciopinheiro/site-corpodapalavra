@@ -14,6 +14,7 @@ export const Navbar: React.FC = () => {
     { label: 'carimbos', href: '#carimbos' },
     { label: 'A–Z real', href: '#az-modular' },
     { label: '12 excertos', href: '#literatura-12' },
+    { label: 'acervo', href: '#acervo-catalogo' },
     { label: 'anatomia', href: '#anatomia' },
     { label: 'pranchas', href: '#galeria' },
     { label: 'créditos', href: '#creditos' }

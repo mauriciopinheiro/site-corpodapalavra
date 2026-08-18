@@ -15,6 +15,7 @@ import { AZPainelModular } from './components/secoes/AZPainelModular';
 import { ParedeTipografica } from './components/secoes/ParedeTipografica';
 import { Literatura12Section } from './components/secoes/Literatura12Section';
 import { PalavraComoImagem } from './components/secoes/PalavraComoImagem';
+import { CatalogoAcervoSection } from './components/secoes/CatalogoAcervoSection';
 import { GaleriaEspaco } from './components/secoes/GaleriaEspaco';
 import { GlossarioVivo } from './components/secoes/GlossarioVivo';
 import { EpilogoMemoriaPercurso } from './components/secoes/EpilogoMemoriaPercurso';
@@ -26,12 +27,10 @@ export const App: React.FC = () => {
   return (
     <ProvedorExposicao>
       <div className="min-h-screen bg-papel text-tinta flex flex-col selection:bg-tinta selection:text-papel-claro">
-        {/* Controles globais e navegação fluida */}
         <BarraProgresso />
         <CursorCustomizado />
         <Navbar />
 
-        {/* Narrativa Curatorial da Exposição corpoDApalavra */}
         <main className="flex-1 w-full flex flex-col" id="conteudo-principal">
           {/* 1. Hero com Bancada Viva do Gesto & Palavra */}
           <HeroSection />
@@ -69,23 +68,25 @@ export const App: React.FC = () => {
           {/* 12. A Palavra como Imagem */}
           <PalavraComoImagem />
 
-          {/* 13. Pranchas e Diagramas Técnicos Expográficos */}
+          {/* 13. Catálogo de Obras Tombadas e os 6 Núcleos (C-O-R-P-O-A) */}
+          <CatalogoAcervoSection />
+
+          {/* 14. Pranchas e Diagramas Técnicos Expográficos */}
           <GaleriaEspaco />
 
-          {/* 14. Glossário do Corpo da Letra */}
+          {/* 15. Glossário do Corpo da Letra */}
           <GlossarioVivo />
 
-          {/* 15. Epílogo com Prova de Prelo 100% Gerativa */}
+          {/* 16. Epílogo com Prova de Prelo 100% Gerativa */}
           <EpilogoMemoriaPercurso />
 
-          {/* 16. Informações de Visita ao Sesc Santo André */}
+          {/* 17. Informações de Visita ao Sesc Santo André */}
           <InformacoesVisita />
 
-          {/* 17. Ficha Técnica e Autoria de Maurício Pinheiro */}
+          {/* 18. Ficha Técnica e Autoria de Maurício Pinheiro */}
           <CreditosSection />
         </main>
 
-        {/* Rodapé Editorial */}
         <Rodape />
       </div>
     </ProvedorExposicao>

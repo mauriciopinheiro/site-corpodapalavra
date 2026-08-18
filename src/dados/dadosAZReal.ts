@@ -1,3 +1,13 @@
+export interface GlifoIndividual {
+  glifo: string;
+  estiloVisual: string;
+  nomeFonte: string;
+  designer: string;
+  anoCriacao: string;
+  categoriaEstilo: string;
+  detalheAnatomico: string;
+}
+
 export interface GrupoAZReal {
   id: number;
   letras: string;
@@ -14,133 +24,133 @@ export const DADOS_AZ_REAL: GrupoAZReal[] = [
   {
     id: 1,
     letras: 'ab',
-    fonte: 'Prelo Brutal / Gesto 01',
-    autorOuReferencia: 'Gráfica Experimental',
-    conceito: 'Abertura & Fundação',
-    citacaoOuPensamento: '“A primeira letra é um corte no vazio.”',
+    fonte: 'Sumé (Tony de Marco) / Bandeira (Marconi Lima)',
+    autorOuReferencia: 'Tony de Marco & Marconi Lima',
+    conceito: 'Abertura & Fundação Modular',
+    citacaoOuPensamento: '“A primeira letra é um corte no vazio da página.”',
     autorCitacao: 'André Bonani',
-    estiloVisual: 'brutalista',
-    descricao: 'Hastes maciças de alto contraste inspiradas nos primeiros blocos de madeira talhados manualmente.'
+    estiloVisual: 'sumo',
+    descricao: 'Letra a (Sumé, 1989 - primeira digital brasileira) e letra b (Bandeira, 2012 - tipo display de ritmo robusto).'
   },
   {
     id: 2,
     letras: 'cd',
-    fonte: 'Transição Clássica / Arcabouço',
-    autorOuReferencia: 'Estúdio Agudo',
-    conceito: 'Curvatura & Contraforma',
+    fonte: 'Cariri (GamaH) / Discordia (Álvaro Franca)',
+    autorOuReferencia: 'Antônio Gamah & Álvaro Franca',
+    conceito: 'Curvatura & Contraforma Rítmica',
     citacaoOuPensamento: '“No interior da curva habita o silêncio da voz.”',
     autorCitacao: 'Fabrício Gonçalves',
-    estiloVisual: 'serifa',
-    descricao: 'Bojos generosos e modulação de espessura que acolhem o espaço em branco.'
+    estiloVisual: 'discordia',
+    descricao: 'Letra c (Cariri - proporção aberta da madeira) e letra d (Discordia - serifas em cunha inspiradas em gravura).'
   },
   {
     id: 3,
     letras: 'ef',
-    fonte: 'Seiva',
-    autorOuReferencia: 'Tipografia Brasileira Contemporânea',
-    conceito: 'Orgânico & Seiva Vegetal',
+    fonte: 'Estúdio Agudo Display / Firula (Rodrigo Saiani)',
+    autorOuReferencia: 'Débora Gomes & Rodrigo Saiani (Plau)',
+    conceito: 'Orgânico, Terminal & Gota',
     citacaoOuPensamento: '“A letra cresce como galho que busca a luz da página.”',
     autorCitacao: 'Exposição corpoDApalavra',
     estiloVisual: 'seiva',
-    descricao: 'Desenho fluido com terminais inspirados na botânica e na matéria viva da madeira.'
+    descricao: 'Letra e (Estúdio Agudo) e letra f (Firula - gota terminal orgânica inspirada na caligrafia viva).'
   },
   {
     id: 4,
     letras: 'gh',
-    fonte: 'Geometria Humanista',
-    autorOuReferencia: 'Claudio Rocha',
-    conceito: 'Estrutura Dupla & Laço',
+    fonte: 'Gesto Fino (Roger Beatjesus) / Heu (Daniel Sabino)',
+    autorOuReferencia: 'Roger Beatjesus & Daniel Sabino (Blackletra)',
+    conceito: 'Dois Andares & Matriz Gótica',
     citacaoOuPensamento: '“O g de dois andares é um pêndulo de equilíbrio ótico.”',
     autorCitacao: 'Oficina Tipográfica',
     estiloVisual: 'humanista',
-    descricao: 'Construção complexa com orelha proeminente e laço inferior ritmado.'
+    descricao: 'Letra g (Gesto Fino) e letra h (Heu Display - releitura contemporânea de matrizes clássicas e góticas).'
   },
   {
     id: 5,
     letras: 'ij',
-    fonte: 'Mecânica Monospaçada',
-    autorOuReferencia: 'GamaH Expografia',
-    conceito: 'Métrica & Ponto de Pausa',
+    fonte: 'Amora A (Leopoldo Leal) / Jornal Moderno',
+    autorOuReferencia: 'Leopoldo Leal & Fabrício Gonçalves',
+    conceito: 'Ponto de Pausa & Métrica',
     citacaoOuPensamento: '“A precisão do encaixe sustenta a leveza do conjunto.”',
     autorCitacao: 'GamaH',
     estiloVisual: 'mono',
-    descricao: 'Caracteres com larguras estritas inspirados nos tipos de máquina de escrever e prelos.'
+    descricao: 'Letra i (Amora A - pesquisa experimental) e letra j (Jornal Moderno - terminal em gancho afiado).'
   },
   {
     id: 6,
     letras: 'kl',
-    fonte: 'Bala New',
-    autorOuReferencia: 'Márcio Freitas',
-    conceito: 'Impulso Diagonal & Perna',
-    citacaoOuPensamento: '“A força do corte angular projeta a leitura para a frente.”',
-    autorCitacao: 'Márcio Freitas',
-    estiloVisual: 'bala',
-    descricao: 'Fontes brasileiras com traços geométricos enérgicos e ângulos agudos de impacto.'
+    fonte: 'Klaxon Display / Prelo Sans (Gráfica Experimental)',
+    autorOuReferencia: 'André Bonani & Roger Beatjesus',
+    conceito: 'Vanguarda & Peso Maciço',
+    citacaoOuPensamento: '“A palavra pesa quanto pesa o chumbo no prelo.”',
+    autorCitacao: 'Carlos Drummond de Andrade',
+    estiloVisual: 'brutalista',
+    descricao: 'Letra k (Klaxon 1922) e letra l (Prelo Sans - haste vertical ultrapesada de impacto no papel).'
   },
   {
     id: 7,
     letras: 'mno',
-    fonte: 'Discórdia',
-    autorOuReferencia: 'Antônio Bispo dos Santos (Nego Bispo)',
-    conceito: 'Confluência & Resistência',
-    citacaoOuPensamento: '“Nós não somos o começo nem o fim: nós somos o meio, a confluência.”',
-    autorCitacao: 'Nego Bispo',
-    estiloVisual: 'discordia',
-    descricao: 'Tipografia expressiva de matriz afro-brasileira e ancestralidade orgânica.'
+    fonte: 'Capitolina (Christopher) / Melindrosa (Flavia Zimbardi) / Nativa',
+    autorOuReferencia: 'Christopher Hammerschmidt & Flavia Zimbardi',
+    conceito: 'Modulação, Curva & Alto Contraste',
+    citacaoOuPensamento: '“Três maneiras distintas de produzir linguagem em um único módulo.”',
+    autorCitacao: 'Edimilson de Almeida Pereira',
+    estiloVisual: 'serifa',
+    descricao: 'Letra m (Capitolina), letra n (Melindrosa - Art Déco) e letra o (Nativa Display - eixo elíptico).'
   },
   {
     id: 8,
     letras: 'pq',
-    fonte: 'Adriane Text',
-    autorOuReferencia: 'Maria Firmina dos Reis',
-    conceito: 'Literatura Pioneira & Voz',
-    citacaoOuPensamento: '“A mente livre não aceita as amarras da opressão.”',
-    autorCitacao: 'Maria Firmina dos Reis',
-    estiloVisual: 'adriane',
-    descricao: 'Serifas editoriais elegantes desenhadas para imersão literária contínua.'
+    fonte: 'Krenak Sans (Débora Gomes) / Veredas Script',
+    autorOuReferencia: 'Débora Gomes & Roger Beatjesus',
+    conceito: 'Silêncio & Cauda Linear',
+    citacaoOuPensamento: '“Nossas narrativas são matéria viva que sustenta o mundo.”',
+    autorCitacao: 'Ailton Krenak',
+    estiloVisual: 'caligrafica',
+    descricao: 'Letra p (Krenak Sans - laço amplo) e letra q (Veredas Script - cauda estendida em vetor horizontal).'
   },
   {
     id: 9,
     letras: 'rs',
-    fonte: 'Sumô',
-    autorOuReferencia: 'Design Tipográfico Brasileiro',
-    conceito: 'Peso Extremo & Massa Negra',
-    citacaoOuPensamento: '“A tinta preta ocupa a matéria com gravidade absoluta.”',
-    autorCitacao: 'Painel oSERtipografia',
-    estiloVisual: 'sumo',
-    descricao: 'Pesos ultra pesados com contraformas microscópicas e presença física monumental.'
+    fonte: 'Xilo Brutal (André Bonani) / Monolito (Tony de Marco)',
+    autorOuReferencia: 'André Bonani & Tony de Marco',
+    conceito: 'Escultura & Matriz de Linóleo',
+    citacaoOuPensamento: '“A letra deixa de ser apenas texto e passa a ser escultura.”',
+    autorCitacao: 'Curadoria ETA',
+    estiloVisual: 'experimental',
+    descricao: 'Letra r (Xilo Brutal - corte de linóleo) e letra s (Monolito Extra - espinha dorsal expandida).'
   },
   {
     id: 10,
     letras: 'tu',
-    fonte: 'Condensada Arquitetural',
-    autorOuReferencia: 'Tony de Marco',
-    conceito: 'Verticalidade & Cruzamento',
-    citacaoOuPensamento: '“A altura-x estica-se até tocar o limite do bloco.”',
-    autorCitacao: 'Tony de Marco',
-    estiloVisual: 'condensada',
-    descricao: 'Proporções estreitas e verticais que otimizam o ritmo e a densidade da mancha.'
+    fonte: 'Cícero Italic (Jean Rosa) / Cariri Lapidar (GamaH)',
+    autorOuReferencia: 'Jean Rosa & Antônio Gamah',
+    conceito: 'Dinamismo Cursivo & Lapidar Romano',
+    citacaoOuPensamento: '“A permanência da pedra versus a fluidez da escrita.”',
+    autorCitacao: 'Prisca Agustoni',
+    estiloVisual: 'bala',
+    descricao: 'Letra t (Cícero Italic) e letra U (Cariri Lapidar - maiúscula monumental de cinzel).'
   },
   {
     id: 11,
     letras: 'vw',
-    fonte: 'Caligrafia Gesto-Duto',
-    autorOuReferencia: 'Roger Beatjesus',
-    conceito: 'Gesto Inclinado & Velocidade',
-    citacaoOuPensamento: '“A mão rápida imprime o calor do corpo na folha fria.”',
-    autorCitacao: 'Gráfica Experimental',
-    estiloVisual: 'caligrafica',
-    descricao: 'Ducto caligráfico expressivo que revela a pressão e a velocidade da pena manual.'
+    fonte: 'Borges Monumental / Gesto Fino',
+    autorOuReferencia: 'Estúdio Agudo & Roger Beatjesus',
+    conceito: 'Vértice Puro & Fio Caligráfico',
+    citacaoOuPensamento: '“O livro é uma escultura do saber em movimento.”',
+    autorCitacao: 'Jorge Luis Borges',
+    estiloVisual: 'adriane',
+    descricao: 'Letra V (Borges Monumental - proporções clássicas) e letra w (Gesto Fino - entrelaçamento leve).'
   },
   {
     id: 12,
     letras: 'xyz',
-    fonte: 'Matriz Experimental & Vazio',
-    autorOuReferencia: 'Débora Gomes & Fabrício Gonçalves',
-    conceito: 'Horizonte & Silêncio',
-    citacaoOuPensamento: '“O último caractere devolve a palavra ao silêncio do mundo.”',
+    fonte: 'Grid Proporção / Bringhurst Mono / Terminal Z',
+    autorOuReferencia: 'Débora Gomes, Fabrício Gonçalves & André Bonani',
+    conceito: 'Encerramento do Alfabeto & Proporção',
+    citacaoOuPensamento: '“De A a Z, o pensamento ganhou corpo, ritmo e espaço.”',
     autorCitacao: 'corpoDApalavra',
-    estiloVisual: 'experimental',
-    descricao: 'Formas limítrofes que encerram o alfabeto e preparam a matriz para o recomeço.'
+    estiloVisual: 'condensada',
+    descricao: 'Letra x (Grid Proporção), letra y (Bringhurst Mono) e letra z (Terminal Z - encerramento do alfabeto).'
   }
 ];
